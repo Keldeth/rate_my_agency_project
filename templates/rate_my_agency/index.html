@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+
+	<head>
+		<title>Rate My Agency</title>
+	</head>
+	
+	<body>
+		<h1>Rate my Agency</h1>
+		<div>
+			Welcome!<br />
+			<strong>{{ boldmessage }}</strong><br/>
+		</div>
+		<div>
+			<a href="/rate_my_agency/about/">About</a><br />
+			<img src="{% static 'images/apartment.jpg' %}" alt="Picture of apartment" /> 
+		</div>
+	</body>
+
+</html>

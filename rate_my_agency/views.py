@@ -3,9 +3,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def index(request):
-    return HttpResponse("<a href='/rate_my_agency/about/'>About</a> Welcome to Rate My Agency")
+    context_dict = {'boldmessage': 'This is the home page of Rate My Agency.'}
+    return render(request, 'rate_my_agency/index.html', context=context_dict)
 
 
 def about(request):
-    return HttpResponse("<a href='/rate_my_agency/'>Index</a> This is the about page")
+    return render(request, 'rate_my_agency/about.html')
 
