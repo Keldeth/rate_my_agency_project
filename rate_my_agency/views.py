@@ -1,5 +1,8 @@
 from django.shortcuts import render
 
+# Create your views here.
+from django.shortcuts import render
+
 from django.http import HttpResponse
 
 def index(request):
@@ -9,4 +12,3 @@ def index(request):
 
 def about(request):
     return render(request, 'rate_my_agency/about.html')
-
