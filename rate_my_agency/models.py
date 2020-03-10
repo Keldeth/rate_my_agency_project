@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 class City(models.Model):
     name = models.CharField(max_length = 30)
-
+    class Meta:
+        verbose_name_plural = 'Cities'
     def __str__(self):
         return self.name
 
@@ -17,6 +18,9 @@ class Tenant(models.Model):
 class Agency(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = 'Agencies'
 
     def __str__(self):
         return self.user.username
