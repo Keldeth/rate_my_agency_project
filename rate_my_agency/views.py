@@ -34,7 +34,7 @@ def show_city(request, city_name_slug):
         context_dict['agencies'] = agencies
         context_dict['city'] = city
 
-    except Category.DoesNotExist:
+    except City.DoesNotExist:
         context_dict['city'] = None
         context_dict['agencies'] = None
 

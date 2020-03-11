@@ -19,13 +19,33 @@
 			{% if cities %}
 				<ul>
 				{% for city in cities %}
-					<li>{{ city.name }}</li>
+					<li>
+						<a href="/rate_my_agency/city/{{ city.slug }}/">{{ city.name }}</a>
+					</li>
 				{% endfor %}
 				</ul>
 			{% else %}
 				<strong>There are no cities currently available</strong>
 			{% endif %}
 		</div>
+		
+		<div>
+			<h2>Top rated agencies:</h2>
+			Should have similar code to search by city above, but cannot implement currently as we don't have
+			the rating system working yet. Thinking we should have a field called "approval" in the Agency model,
+			so as to avoid confusion with <strong>individual</strong> user ratings? This would just be a percentage
+			of ratings which were likes. Not sure exact logistics of that yet though - maybe we should ask the tutor.<br>
+			-Paul
+		</div>
+		
+		<div>
+			<h2>Busiest agencies</h2>
+			We got negative feedback on "agencies to avoid" on the design spec, so I thought we could replace it with
+			something like this, based on how many comments a page has for example. Can discuss on Thursday.<br>
+			-Paul
+		</div>
+		
+		<br>
 		
 		<div>
 			<a href="/rate_my_agency/about/">About</a><br />
