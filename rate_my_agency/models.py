@@ -1,11 +1,19 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 
 from django.contrib.auth.models import User
 # Create your models here.
 class City(models.Model):
-    name = models.CharField(max_length = 30)
+    name = models.CharField(max_length = 30, unique=True)
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(City, self).save(*args, **kwargs)
+    
     class Meta:
         verbose_name_plural = 'Cities'
+        
     def __str__(self):
         return self.name
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		<title>Rate My Agency</title>
+	</head>
+	
+	<body>
+		<h1>Search Agency by City</h1>
+		<div>
+		{% if city %}
+			<h2>{{ city.name }}</h2>
+			{% if agencies %}
+			<ul>
+				{% for agency in agencies %}
+				<!--need to add urls here later, and also fix field so it's a "name" and not a username-->
+				<li>{{ agency.user }}</li>
+				{% endfor %}
+			</ul>
+			{% else %}
+			<strong>Sorry, there are no agencies currently based in this city.</strong>
+			{% endif %}
+		{% else %}
+			Sorry, we do not store information on agencies in this city.
+		{% endif %}
+		</div>
+	</body>
+	
+</html>

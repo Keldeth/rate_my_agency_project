@@ -13,6 +13,20 @@
 			Welcome!<br />
 			<strong>{{ boldmessage }}</strong><br/>
 		</div>
+		
+		<div>
+			<h2>Search for agencies by city:</h2>
+			{% if cities %}
+				<ul>
+				{% for city in cities %}
+					<li>{{ city.name }}</li>
+				{% endfor %}
+				</ul>
+			{% else %}
+				<strong>There are no cities currently available</strong>
+			{% endif %}
+		</div>
+		
 		<div>
 			<a href="/rate_my_agency/about/">About</a><br />
 			<img src="{% static 'images/apartment.jpg' %}" alt="Picture of apartment" /> 
