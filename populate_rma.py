@@ -1,6 +1,8 @@
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rate_my_agency_project.settings')
 
+# commenting to test changes
+
 import django
 django.setup()
 from rate_my_agency.models import City, Tenant, Agency, AgencyProfile, Rating, Comment
