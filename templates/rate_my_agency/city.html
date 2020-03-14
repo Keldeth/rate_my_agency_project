@@ -1,35 +1,30 @@
-<!DOCTYPE html>
+{% extends 'rate_my_agency/base.html' %}
+{% load staticfiles %}
 
-<html>
+{% block title_block %}
+	{% if city %}
+		{{ city.name }}
+	{% else %}
+		Unknown City
+	{% endif %}
+{% endblock %}
 
-	<head>
-		<title>Rate My Agency</title>
-	</head>
-	
-	<body>
-		<h1>Search Agency by City</h1>
-		<div>
-		{% if city %}
-			<h2>{{ city.name }}</h2>
-			{% if agencies %}
-			<ul>
-				{% for agency in agencies %}
-				<!--need to add urls here later, and also fix field so it's a "name" and not a username-->
-				<li>{{ agency.user }}</li>
-				{% endfor %}
-			</ul>
-			{% else %}
-			<strong>Sorry, there are no agencies currently based in this city.</strong>
-			{% endif %}
+{% block body_block %}
+	{% if city %}
+		<h1>{{ city.name }}</h1>
+		{% if agencies %}
+		<ul>
+			{% for agency in agencies %}
+			<li>{{ agency.user }}</li>
+			{% endfor %}
+		</ul>
 		{% else %}
-			Sorry, we do not store information on agencies in this city.
+		<strong>Sorry, there are no agencies currently based in this city.</strong>
 		{% endif %}
-		</div>
-		<br>
-	</body>
-	
-	<div>
-		<a href="/rate_my_agency/">Index</a><br />
+	{% else %}
+		Sorry, we do not store information on agencies in this city.
+	{% endif %}
 	</div>
+{% endblock %}
 	
-</html>
+	

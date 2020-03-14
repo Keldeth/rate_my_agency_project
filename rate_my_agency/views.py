@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
+from rate_my_agency.forms import CommentForm
 from rate_my_agency.models import City
 from rate_my_agency.models import Agency
 
@@ -39,4 +41,31 @@ def show_city(request, city_name_slug):
         context_dict['agencies'] = None
 
     return render(request, 'rate_my_agency/city.html', context=context_dict)
-        
+
+def add_comment(request ,agency_profile_name):
+    try:
+        agency = AgencyProfile.objects.get(agency=agency_profile_name)
+    except Agency.DoesNotExist:
+        agency = None
+
+    if agency is None:
+        return redirect('/rate_my_agency/')
+    
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            if agency:
+                comment = form.save(commit=False)
+                comment.agency = agency
+                #comment.tenant = ???
+                comment.save()
+            form.save(commit=True)
+            return redirect('/rate_my_agency/')
+        else:
+            print(form.errors)
+    context_dict = {'form':form, 'agency':agency}
+    return render(request, 'rate_my_agency/add_comment.html', context=context_dict)
+    

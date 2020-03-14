@@ -8,4 +8,5 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('city/<slug:city_name_slug>/',
          views.show_city, name='show_city'),
+    path('add_comment/', views.add_comment, name='add_comment'),
 ]
