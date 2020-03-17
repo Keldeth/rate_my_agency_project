@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from rate_my_agency.forms import CommentForm, TenantForm, AgencyForm
+from rate_my_agency.forms import CommentForm, TenantForm, AgencyForm, AgencyProfileForm, TenantProfileForm
 from rate_my_agency.models import City
 from rate_my_agency.models import Agency
+from rate_my_agency.models import User
+from django.views.generic import CreateView # Added Import
 
 # Create your views here.
 from django.shortcuts import render
@@ -72,7 +74,31 @@ def add_comment(request ,agency_profile_name):
 def register(request):
     return render(request, 'rate_my_agency/register.html')
     
-def register_agency(CreateView):
+def register_agency(request):
+
+    registered = False
+    if request.method == 'POST':
+        agency_form = AgencyForm(request.POST)
+        profile_form = AgencyProfileForm(request.POST)
+        if agency_form.is_valid() and profile_form.is_valid():
+            agency = agency_form.save()
+            agency.set_password(agency.password)
+            agency.save()
+            profile = profile_form.save(commit=False)
+            profile.agency = agency
+            registered = True
+        else:
+            print(agency_form.errors, profile_form.errors)
+    else:
+        agency_form = AgencyForm()
+        profile_form = AgencyProfileForm()
+
+    return render(request, 'rate_my_agency/register.html',
+                  context = {'agency_form': agency_form, 'profile_form': profile_form, 'registered': registered})
+
+
+
+'''
     model = User
     form_class = AgencyForm
     template_name = 'agency.html'
@@ -85,21 +111,29 @@ def register_agency(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('rate_my_agency:index')
-    
+'''    
 
-def register_tenant(CreateView):
-    model = User
-    form_class = TenantForm
-    template_name = 'tenant.html'
+def register_tenant(request):
 
-    def get_context_data(self, **kwargs):
-        kwargs['user_type'] = 'tenant'
-        return super().get_context_data(**kwargs)
+    registered = False
+    if request.method == 'POST':
+        tenant_form = TenantForm(request.POST)
+        profile_form = TenantProfileForm(request.POST)
+        if tenant_form.is_valid() and profile_form.is_valid():
+            tenant = tenant_form.save()
+            tenant.set_password(tenant.password)
+            tenant.save()
+            profile = profile_form.save(commit=False)
+            profile.tenant = tenant
+            registered = True
+        else:
+            print(tenant_form.errors, profile_form.errors)
+    else:
+        tenant_form = TenantForm()
+        profile_form = TenantProfileForm()
 
-    def form_is_valid(self, form):
-        user = form.save()
-        login(self.request, user)
-        return redirect('rate_my_agency:index')
+    return render(request, 'rate_my_agency/register.html',
+                  context = {'agency_form': agency_form, 'profile_form': profile_form, 'registered': registered})
 
 
 

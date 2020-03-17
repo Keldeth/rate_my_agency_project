@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-	'rate_my_agency',
+    'rate_my_agency',
 ]
 
 MIDDLEWARE = [

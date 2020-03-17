@@ -32,23 +32,31 @@ class Tenant(models.Model):
 class Agency(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
-    url = models.URLField()
+    url = models.URLField(null = True)
 
     class Meta:
         verbose_name_plural = 'Agencies'
 
     def __str__(self):
         return self.user.username
-"""    
+  
 class AgencyProfile(models.Model):
     agency = models.OneToOneField(Agency, on_delete=models.CASCADE)
     url = models.URLField()
+    
 
     #checking this one works:
     def __str__(self):
-        #return self.agency.user.username
-        return __str__(self.agency)
-""" 
+        return self.agency.user.username
+        #return __str__(self.agency)
+        
+class TenantProfile(models.Model):
+    tenant = models.OneToOneField(Tenant, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.tenant.user.username
+
+
 # I've written this as being one individual like/dislike rating, left by one person.
 # Hence why it's linked through a foreign key to one agency profile; I thought we could
 # average out all the individual ratings on the actual profile page rather than store a % in the DB?
