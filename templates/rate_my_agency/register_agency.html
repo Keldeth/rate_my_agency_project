@@ -1,0 +1,23 @@
+{% extends 'rate_my_agency/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	Registration
+{% endblock %}
+
+{% block body_block %}
+	<h1>Sign up as an Agency</h1>
+	{% if registered %}
+	<strong>Thank you for registering!</strong>
+	<a href="{% url 'rate_my_agency:index' %}">Return to the homepage.</a><br />
+	{% else %}
+	<div>
+		<form id="agency_form" method="post" action="{% url 'rate_my_agency:register_agency' %}"
+		enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ agency_form.as_p }}
+			<input type="submit" name="submit" value="Submit" />
+		</form>
+	</div>
+	{% endif %}
+{% endblock %}

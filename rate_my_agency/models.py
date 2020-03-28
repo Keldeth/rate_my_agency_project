@@ -1,6 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
-from django.contrib.auth.models import AbstractUser, User
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 class City(models.Model):
     name = models.CharField(max_length = 30, unique=True)
@@ -20,12 +20,19 @@ class User(AbstractUser):
     USER_TYPE_CHOICES = (
         (1, 'tenant'),
         (2, 'agency'),
+        (3, 'superuser')
     )
     user_type = models.PositiveSmallIntegerField(choices = USER_TYPE_CHOICES)
-                                                 
+    city = models.ForeignKey(City, on_delete=models.CASCADE, null = True)
+    url = models.URLField(null = True)
+    
+    
+    REQUIRED_FIELDS = ['email', 'user_type']
+    
 class Tenant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
+    
+    
     def __str__(self):
         return self.user.username
 
@@ -33,6 +40,7 @@ class Agency(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     url = models.URLField(null = True)
+    
 
     class Meta:
         verbose_name_plural = 'Agencies'
@@ -40,21 +48,7 @@ class Agency(models.Model):
     def __str__(self):
         return self.user.username
   
-class AgencyProfile(models.Model):
-    agency = models.OneToOneField(Agency, on_delete=models.CASCADE)
-    url = models.URLField()
-    
 
-    #checking this one works:
-    def __str__(self):
-        return self.agency.user.username
-        #return __str__(self.agency)
-        
-class TenantProfile(models.Model):
-    tenant = models.OneToOneField(Tenant, on_delete=models.CASCADE)
-    
-    def __str__(self):
-        return self.tenant.user.username
 
 
 # I've written this as being one individual like/dislike rating, left by one person.

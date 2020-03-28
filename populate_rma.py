@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rate_my_agency_project.settings
 
 import django
 django.setup()
-from rate_my_agency.models import City, Tenant, Agency, AgencyProfile, Rating, Comment
+from rate_my_agency.models import City, Tenant, Agency, Rating, Comment
 
 #Attempting to fix the whole user problem
 from django.contrib.auth.models import User
