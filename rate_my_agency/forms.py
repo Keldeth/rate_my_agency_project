@@ -9,21 +9,24 @@ class CommentForm(forms.ModelForm):
 
 
 class AgencyForm(UserCreationForm):
+    username = forms.CharField(label = "Username", max_length = 30, help_text = "Required. 30 characters or less")
+    name = forms.CharField(label = "Agency Name")
     city = forms.ModelChoiceField(queryset=City.objects.all())
-    url = forms.URLField(required = False)
+    url = forms.URLField(label = "Website",required = False,)
     
     
     
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'city', 'url')
+        fields = ('username', 'name', 'city','url')
     
           
 class TenantForm(UserCreationForm):
+    username = forms.CharField(label = "Username", max_length = 30, help_text = "Required. 30 characters or less")
    
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username',)
+        fields = ('username', 'name')
 
 
         

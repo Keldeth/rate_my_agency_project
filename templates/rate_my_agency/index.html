@@ -43,6 +43,20 @@
 			-Paul
 	</div>
 		
+	<div>
+		<h2>Search By Agency Name:</h2>
+		<form method="get">
+			{{myFilter.form}}
+		<button class="btn btn-primary" type="submit">Search</button>
+		{% if agencies %}
+			{% for agency in agencies %}
+				<ul><li><div>{{ agency.name }}, {{agency.city}}</div> </li></ul>
+			{% endfor %}
+		{% else %}
+			<strong>There are no agencies that match this search.</strong>
+		{% endif %}
+		</form>
+		
 	<br>
 {% endblock %}
 		

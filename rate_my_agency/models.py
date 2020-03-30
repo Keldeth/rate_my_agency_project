@@ -25,19 +25,21 @@ class User(AbstractUser):
     user_type = models.PositiveSmallIntegerField(choices = USER_TYPE_CHOICES)
     city = models.ForeignKey(City, on_delete=models.CASCADE, null = True)
     url = models.URLField(null = True)
+    name = models.CharField(max_length = 30, null = True)
     
     
     REQUIRED_FIELDS = ['email', 'user_type']
     
 class Tenant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    
+    name = models.CharField(max_length = 30, null = True)
     
     def __str__(self):
         return self.user.username
 
 class Agency(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length = 30, null = True)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     url = models.URLField(null = True)
     

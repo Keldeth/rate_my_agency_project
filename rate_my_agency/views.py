@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from rate_my_agency.forms import CommentForm, TenantForm, AgencyForm
-from rate_my_agency.models import City, Agency, Tenant
+from .forms import CommentForm, TenantForm, AgencyForm
+from .models import City, Agency, Tenant
+from .filters import AgencyFilter
 
 from django.views.generic import CreateView # Added Import
 
@@ -13,14 +14,17 @@ from django.http import HttpResponse
 def index(request):
     # query db for list of all cities to display
     city_list = City.objects.order_by('name')[:]
+    agencies = Agency.objects.all()
+    myFilter = AgencyFilter(request.GET, queryset=agencies)
+    agencies = myFilter.qs[:10]
     
-
     context_dict = {}
-    context_dict['boldmessage'] = 'This is the home page of Rate My Agency.'
+    context_dict = {'agencies':agencies, 'myFilter':myFilter,
+                    'boldmessage':"This is the home page of Rate My Agency."}
     if city_list:
         context_dict['cities'] = city_list
     
-    return render(request, 'rate_my_agency/index.html', context=context_dict)
+    return render(request, 'rate_my_agency/index.html', context_dict)
 
 def about(request):
     return render(request, 'rate_my_agency/about.html')
@@ -88,7 +92,7 @@ def register_agency(request):
             agency.user_type = 2
             agency.set_password(agency.password)
             agency.save()
-            Agency.objects.create(user=agency, city=agency.city)
+            Agency.objects.create(user=agency, city=agency.city, name = agency.name)
             registered = True
         else:
             print(agency_form.errors,)
@@ -98,8 +102,6 @@ def register_agency(request):
 
     return render(request, 'rate_my_agency/register_agency.html',
                   context = {'agency_form': agency_form, 'registered': registered})
-
-
 
 
 def register_tenant(request):
@@ -125,5 +127,11 @@ def register_tenant(request):
 
 
 
-
+def search_results(request):
+    agencies = Agency.objects.all()
+    myFilter = AgencyFilter(request.GET, queryset=agencies)
+    agencies = myFilter.qs
+    context = {'agencies':agencies, 'myFilter':myFilter}
+    
+    return render(request, 'rate_my_agency/search_results.html', context)
 
