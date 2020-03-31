@@ -51,7 +51,7 @@ class Agency(models.Model):
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.agencyName)
-        super(Category, self).save(*args, **kwargs)
+        super(Agency, self).save(*args, **kwargs)
     
     class Meta:
         verbose_name_plural = 'Agencies'
