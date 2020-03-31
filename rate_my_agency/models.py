@@ -42,31 +42,21 @@ class Tenant(models.Model):
 
 class Agency(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-<<<<<<< HEAD
     agencyName = models.CharField(max_length = 30)
+    # no on_delete here, to make it work:
     cities = models.ManyToManyField(City)
     website = models.URLField(null = True)
     slug = models.SlugField()
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.agencyName)
         super(Category, self).save(*args, **kwargs)
-=======
-	#had to remove CASCADE because of the ManyToManyField
-    city = models.ManyToManyField(City)
-    url = models.URLField(null = True)
->>>>>>> c35d2a070820ac79729b718a9b309a89f4984d34
     
     class Meta:
         verbose_name_plural = 'Agencies'
 
     def __str__(self):
         return self.user.username
-<<<<<<< HEAD
-=======
-
-
->>>>>>> c35d2a070820ac79729b718a9b309a89f4984d34
 
 # I've written this as being one individual like/dislike rating, left by one person.
 # Hence why it's linked through a foreign key to one agency profile; I thought we could
