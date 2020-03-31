@@ -12,17 +12,25 @@ class CommentForm(forms.ModelForm):
 class UserForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ('username','email',)
+        fields = ('username','email','password1','password2')
+
+    def save(self, commit=True):
+        user = super(UserForm, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.username = self.cleaned_data['username']
+        if commit:
+            user.save()
+        return user
 
 
 class AgencyForm(forms.ModelForm):
     agencyName = forms.CharField(label = "Agency Name")
-    cities = forms.ModelMultipleChoiceField(queryset=City.objects.all())
+    cities = forms.ModelMultipleChoiceField(help_text = "(Control + left click to make a selection!)", queryset=City.objects.all())
     url = forms.URLField(label = "Website",required = False,)
     
     class Meta:
         model = Agency
-        fields = ('agencyName', 'cities', 'url')
+        fields = ('agencyName', 'cities', 'url',)
     
           
 class TenantForm(forms.ModelForm):

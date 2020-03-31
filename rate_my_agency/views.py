@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
+from django.urls import reverse
+from django.shortcuts import redirect
 from .forms import UserForm, CommentForm, TenantForm, AgencyForm
 from .models import City, Agency, Tenant
 from .filters import AgencyFilter
@@ -90,7 +94,6 @@ def register_agency(request):
         
         if agency_form.is_valid() and user_form.is_valid():
             user = user_form.save()
-            user.set_password(user.password)
             user.save()
             agency = agency_form.save(commit=False)
             agency.user = user
@@ -118,7 +121,6 @@ def register_tenant(request):
         
         if tenant_form.is_valid() and user_form.is_valid():
             user = user_form.save()
-            user.set_password(user.password)
             user.save()
             tenant = tenant_form.save(commit=False)
             tenant.user = user
@@ -135,6 +137,29 @@ def register_tenant(request):
                   context = {'user_form': user_form, 'tenant_form': tenant_form, 'registered': registered})
 
 
+
+
+def user_login(request):
+    if request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect(reverse('rate_my_agency:index'))
+            else:
+                return HttpResponse("Your Rate my Agency account is diabled.") 
+        else:
+            print(f"Invalid login details: {username}, {password}")
+            return HttpResponse("Invalid login details supplied.")
+    else:
+        return render(request, 'rate_my_agency/login.html')
+
+def user_logout(request):
+    logout(request)
+    return redirect(reverse('rate_my_agency:index'))
+   
 
 
 

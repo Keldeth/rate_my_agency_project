@@ -32,7 +32,12 @@
 {% block body_block %}
 	<h1>Rate my Agency</h1>
 	<div>
-		Welcome! <br />
+	{% if user.is_authenticated %}
+		Welcome <strong>{{ user.username }}!</strong>
+	{% else %}
+		Welcome!
+	{% endif %}
+	<br />
 		<strong>{{ boldmessage }}</strong><br />
 	</div>
 	
