@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from .forms import CommentForm, TenantForm, AgencyForm
+from django.contrib.auth.models import User
+from .forms import UserForm, CommentForm, TenantForm, AgencyForm
 from .models import City, Agency, Tenant
 from .filters import AgencyFilter
 
@@ -34,17 +35,17 @@ def show_city(request, city_name_slug):
 
     try:
         # get city with this associated slug, or raise exception
-        city = City.objects.get(slug=city_name_slug)
+        cities = City.objects.get(slug=city_name_slug)
 
         # retrieve list of all agencies in this city
-        agencies = Agency.objects.filter(city=city)
+        agencies = Agency.objects.filter(cities=cities)
 
         # add results to template context
         context_dict['agencies'] = agencies
-        context_dict['city'] = city
+        context_dict['cities'] = cities
 
     except City.DoesNotExist:
-        context_dict['city'] = None
+        context_dict['cities'] = None
         context_dict['agencies'] = None
 
     return render(request, 'rate_my_agency/city.html', context=context_dict)
@@ -82,56 +83,58 @@ def register(request):
 
     
 def register_agency(request):
-
     registered = False
     if request.method == 'POST':
+        user_form = UserForm(request.POST)
         agency_form = AgencyForm(request.POST)
-
-        if agency_form.is_valid():
+        
+        if agency_form.is_valid() and user_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
             agency = agency_form.save(commit=False)
-            agency.user_type = 2
-            agency.set_password(agency.password)
+            agency.user = user
             agency.save()
-            Agency.objects.create(user=agency, city=agency.city, name = agency.name)
+            agency_form.save_m2m()
+            agency.save()
+           
             registered = True
         else:
-            print(agency_form.errors,)
+            print(user_form.errors, agency_form.errors)
     else:
+        user_form = UserForm()
         agency_form = AgencyForm()
-       
+        
 
     return render(request, 'rate_my_agency/register_agency.html',
-                  context = {'agency_form': agency_form, 'registered': registered})
+                  context = {'user_form': user_form, 'agency_form': agency_form, 'registered': registered})
 
 
 def register_tenant(request):
     registered = False
     if request.method == 'POST':
+        user_form = UserForm(request.POST)
         tenant_form = TenantForm(request.POST)
         
-        if tenant_form.is_valid():
+        if tenant_form.is_valid() and user_form.is_valid():
+            user = user_form.save()
+            user.set_password(user.password)
+            user.save()
             tenant = tenant_form.save(commit=False)
-            tenant.user_type = 1
-            tenant.set_password(tenant.password)
+            tenant.user = user
             tenant.save()
-            Tenant.objects.create(user=tenant)
             registered = True
         else:
-            print(tenant_form.errors)
+            print(user_form.errors, tenant_form.errors)
     else:
+        user_form = UserForm()
         tenant_form = TenantForm()
         
 
     return render(request, 'rate_my_agency/register_tenant.html',
-                  context = {'tenant_form': tenant_form, 'registered': registered})
+                  context = {'user_form': user_form, 'tenant_form': tenant_form, 'registered': registered})
 
 
 
-def search_results(request):
-    agencies = Agency.objects.all()
-    myFilter = AgencyFilter(request.GET, queryset=agencies)
-    agencies = myFilter.qs
-    context = {'agencies':agencies, 'myFilter':myFilter}
-    
-    return render(request, 'rate_my_agency/search_results.html', context)
+
 
