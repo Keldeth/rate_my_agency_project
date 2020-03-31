@@ -32,15 +32,14 @@ class User(AbstractUser):
     
 class Tenant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length = 30, null = True)
     
     def __str__(self):
         return self.user.username
 
 class Agency(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length = 30, null = True)
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
+	#had to remove CASCADE because of the ManyToManyField
+    city = models.ManyToManyField(City)
     url = models.URLField(null = True)
     
 
@@ -49,7 +48,6 @@ class Agency(models.Model):
 
     def __str__(self):
         return self.user.username
-  
 
 
 
