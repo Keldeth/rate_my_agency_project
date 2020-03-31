@@ -5,10 +5,14 @@ from rate_my_agency.models import User, City, Tenant, Agency, Rating, Comment
 class CityAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('name',)}
 
+# Allows every agency to have a slug field filled in based on their username
+class AgencyAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug':('agencyName',)}
+
 # Register your models here.
-admin.site.register(User)
+admin.site.register(User)    #would need to edit this if so
 admin.site.register(City, CityAdmin)
 admin.site.register(Tenant)
-admin.site.register(Agency)
+admin.site.register(Agency, AgencyAdmin)
 admin.site.register(Rating)
 admin.site.register(Comment)
