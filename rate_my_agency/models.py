@@ -2,6 +2,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 # Create your models here.
+
 class City(models.Model):
     name = models.CharField(max_length = 30, unique=True)
     slug = models.SlugField(unique=True)
@@ -15,7 +16,7 @@ class City(models.Model):
         
     def __str__(self):
         return self.name
-    
+
 # commented out this as it's not the way it's done in the book, and our tutor recommended
 # doing it with one-to-one fields directly referencing a user
 '''
@@ -57,7 +58,7 @@ class Agency(models.Model):
 
     def __str__(self):
         return self.user.username
-
+    
 # I've written this as being one individual like/dislike rating, left by one person.
 # Hence why it's linked through a foreign key to one agency profile; I thought we could
 # average out all the individual ratings on the actual profile page rather than store a % in the DB?

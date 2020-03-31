@@ -1,5 +1,5 @@
 from django.contrib import admin
-from rate_my_agency.models import User, City, Tenant, Agency, Rating, Comment
+from rate_my_agency.models import City, Tenant, Agency, Rating, Comment
 
 # Class added to customise the Admin Interface to fill in slug field as you give a city
 class CityAdmin(admin.ModelAdmin):
@@ -10,7 +10,6 @@ class AgencyAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':('agencyName',)}
 
 # Register your models here.
-admin.site.register(User)    #would need to edit this if so
 admin.site.register(City, CityAdmin)
 admin.site.register(Tenant)
 admin.site.register(Agency, AgencyAdmin)

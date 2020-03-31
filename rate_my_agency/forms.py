@@ -26,7 +26,7 @@ class TenantForm(UserCreationForm):
    
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'name')
+        fields = ('username',) #'name')
 
 
         

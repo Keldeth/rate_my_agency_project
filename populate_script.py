@@ -5,7 +5,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rate_my_agency_project.settings
 
 import django
 django.setup()
-from rate_my_agency.models import City, Tenant, Agency, Rating, Comment, User
+from rate_my_agency.models import City, Tenant, Agency, Rating, Comment
 
 def populate():
 	#CITIES
@@ -14,7 +14,9 @@ def populate():
 	cities = ["Glasgow", "Edinburgh", "Dundee", "Aberdeen", "Inverness"]
 	for city in cities:
 		add_city(city)
-		
+
+	print("added cities")
+	
 	#TENANTS
 	'''######################'''
 	#Create tenant users and add them to the database
@@ -28,6 +30,8 @@ def populate():
 	
 	for tenant in tenant_users:
 		tenants.append(add_tenant(tenant))
+
+	print("added tenants")
 	
 	#RATINGS
 	'''######################'''
@@ -73,15 +77,15 @@ def populate():
 	
 	
 	#Create and add the agencies, with different amounts of cities each
-	agencies = [{'user':cairn_user, 'cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Dundee")],'ratings':cairn_ratings, 'comments': cairn_comms},
-				{'user':letsDirect_user,'cities':[City.objects.get(name="Edinburgh")],'ratings':letsDirect_ratings, 'comments': letsDirect_comms},
-				{'user':letsrus_user,'cities':[City.objects.get(name="Aberdeen"),City.objects.get(name="Inverness")],'ratings':letsrus_ratings, 'comments': letsrus_comms},
-				{'user':foleys,'cities':[City.objects.get(name="Glasgow")],'ratings':foleys_ratings, 'comments': foleys_comms}]
+	agencies = [{'user':cairn_user, 'agencyName':'Cairn Letting', 'website':'www.cairn.co.uk', 'cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Dundee")],'ratings':cairn_ratings, 'comments': cairn_comms},
+				{'user':letsDirect_user, 'agencyName':'Lets Direct', 'website':'www.letsdirect.co.uk', 'cities':[City.objects.get(name="Edinburgh")],'ratings':letsDirect_ratings, 'comments': letsDirect_comms},
+				{'user':letsrus_user, 'agencyName':'Lets R Us', 'website':'www.letsrus.co.uk','cities':[City.objects.get(name="Aberdeen"),City.objects.get(name="Inverness")],'ratings':letsrus_ratings, 'comments': letsrus_comms},
+				{'user':foleys, 'agencyName':"Foley's", 'website':'www.foleys.co.uk','cities':[City.objects.get(name="Glasgow")],'ratings':foleys_ratings, 'comments': foleys_comms}]
 	
 	for agency in agencies:
-		a = add_agency(agency['user'])
+		a = add_agency(agency['user'], agency['agencyName'], agency['website'])
 		for city in agency['cities']:
-			a.city.add(city)
+			a.cities.add(city)
 		for rating in agency['ratings']:
 			add_rating(rating['like'],rating['tenant'],a)
 		for comment in agency['comments']:
@@ -106,8 +110,8 @@ def add_city(name):
 	c.save()
 	return c
 	
-def add_agency(user):
-	a = Agency.objects.get_or_create(user = user)[0]
+def add_agency(user, agencyName, website):
+	a = Agency.objects.get_or_create(user = user, agencyName = agencyName, website = website)[0]
 	a.save()
 	return a
 	
