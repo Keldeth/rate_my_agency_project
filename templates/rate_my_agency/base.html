@@ -8,6 +8,10 @@
 			
 			h1{color:black;font-size:40px;font-family:"Helvetica";}
 			
+			a{color: #129494; font-family:"Helvetica"; font-size: 20px;}
+			a:hover{ color: white; font-family:"Helvetica";}
+			a:active{colour:red; font-family:"Helvetica";}
+			
 			.sidebar{height: 100%; width: 160px; position: fixed; z-index: 1;
 				top: 0; left: 0; background-color: #111; overflow-x: hidden;
 				padding-top: 20px;}
@@ -21,6 +25,48 @@
 			
 			@media screen and (max-height: 450px) {.sidebar {padding-top: 15px;} 
 			.sidebar a {font-size: 18px;}}
+			
+			
+			.button {
+			  background-color: white; 
+			  border: 2px solid black;
+			  color: black;
+			  padding: 8px 18px;
+			  text-align: center;
+			  text-decoration: none;
+			  display: inline-block;
+			  font-size: 16px;
+			  margin: 4px 2px;
+			  transition-duration: 0.4s;
+			  cursor: pointer;
+			}
+			
+
+			.button:hover {
+			  background-color: black;
+			  color: white;
+			}
+			
+			.register {
+			  background-color: white; 
+			  border: 2px #DC2819;
+			  color: black;
+			  padding: 40px 60px;
+			  text-align: center;
+			  text-decoration: none;
+			  display: inline-block;
+			  font-size: 32px;
+			  margin: 4px 2px;
+			  transition-duration: 0.4s;
+			  cursor: pointer;
+			  float:center-left;
+			}
+			
+			.register:hover {
+			  background-color: #DC2819;
+			  color: white;
+			}
+			
 		</style>
 		<title>
 			{% block title_block %}
