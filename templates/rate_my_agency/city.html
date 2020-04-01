@@ -15,7 +15,7 @@
 		{% if agencies %}
 		<ul>
 			{% for agency in agencies %}
-			<li>{{ agency.agencyName }}</li>
+			<li><a href="/rate_my_agency/agency/{{ agency.slug }}/">{{ agency.agencyName }}</a></li>
 			{% endfor %}
 		</ul>
 		{% else %}
@@ -25,5 +25,3 @@
 		Sorry, we do not store information on agencies in this city.
 	{% endif %}
 {% endblock %}
-	
-	
