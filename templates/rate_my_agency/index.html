@@ -78,7 +78,7 @@
 		<button class="button" type="submit">Search</button>
 		{% if agencies %}
 			{% for agency in agencies %}
-				<ul><li><div>{{ agency.agencyName }}</div> </li></ul>
+				<ul><li><div><a href="/rate_my_agency/agency/{{ agency.slug }}/">{{ agency.agencyName }}</a></div> </li></ul>
 			{% endfor %}
 		{% else %}
 			<strong>There are no agencies that match this search.</strong>
