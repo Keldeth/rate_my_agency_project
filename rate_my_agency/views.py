@@ -54,6 +54,19 @@ def show_city(request, city_name_slug):
 
     return render(request, 'rate_my_agency/city.html', context=context_dict)
 
+def show_agency(request, agency_name_slug):
+    context_dict = {}
+
+    try:
+        # get agency with associated slug
+        agency = Agency.objects.get(slug=agency_name_slug)
+        context_dict['agency'] = agency
+
+    except Agency.DoesNotExist:
+        context_dict['agency'] = None
+
+    return render(request, 'rate_my_agency/agency.html', context=context_dict)
+
 def add_comment(request ,agency_profile_name):
     try:
         agency = AgencyProfile.objects.get(agency=agency_profile_name)

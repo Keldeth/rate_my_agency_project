@@ -1,0 +1,18 @@
+{% extends 'rate_my_agency/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	{% if agency %}
+		{{ agency.agencyName }}
+	{% else %}
+		Unknown Agency
+	{% endif %}
+{% endblock %}
+
+{% block body_block %}
+	{% if agency %}
+		<h1>{{ agency.agencyName }}</h1>
+	{% else %}
+		<strong>Sorry, this is not an agency registered with us</strong>
+	{% endif %}
+{% endblock %}

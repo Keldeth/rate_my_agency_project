@@ -13,4 +13,6 @@ urlpatterns = [
     path('register/agency/', views.register_agency, name='register_agency'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.user_logout, name='logout'),
+    path('agency/<slug:agency_name_slug>/',
+         views.show_agency, name='show_agency'),
     ]
