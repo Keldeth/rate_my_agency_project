@@ -33,6 +33,8 @@ def populate():
         tenants = []
 	
         for tenant in tenant_users:
+                tenant.set_password('11')
+                tenant.save()
                 tenants.append(add_tenant(tenant))
 
         print("Added 4 tenants")
@@ -87,6 +89,8 @@ def populate():
 				{'user':foleys, 'agencyName':"Foley's", 'website':'www.foleys.co.uk','cities':[City.objects.get(name="Glasgow")],'ratings':foleys_ratings, 'comments': foleys_comms}]
 	
         for agency in agencies:
+                agency['user'].set_password('11')
+                agency['user'].save()
                 a = add_agency(agency['user'], agency['agencyName'], agency['website'])
                 for city in agency['cities']:
                         a.cities.add(city)
