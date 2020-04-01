@@ -10,6 +10,8 @@
 		<!-- this makes the logo graphic a hyperlink to the homepage from any other page -->
         <a href="{% url 'rate_my_agency:index' %}"> <img src="{% static 'images/rmaLogo.jpg' %}" alt="RMA logo"/> </a>
 		
+		<script src= "{% static 'js/livetime.js' %}"></script>
+		
 		<title>
 			{% block title_block %}
 				Rate my Agency!
@@ -17,7 +19,11 @@
 		</title>
 	</head>
 	
-	<body>
+	
+	<body onload="startTime()">
+	
+		<div id="txt" style="float:right;" class="main" ></div>
+		
 		<div class="main">
 		{% block body_block %}
 		{% endblock %}
