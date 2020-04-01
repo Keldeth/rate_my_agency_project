@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body_block %}
-	<h2>Sign up as a Tenant</h2>
+	<h1>Sign up as a Tenant</h1>
 	{% if registered %}
 		<strong>Thank you for registering!</strong>
 		<a href="{% url 'rate_my_agency:index' %}">Return to the homepage.</a><br />

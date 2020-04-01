@@ -10,11 +10,9 @@
 			body{background-color: #DBD81B; font-family:"Helvetica"; }
 			
 			h1{color:black;font-size:40px;font-family:"Helvetica";
-                padding-bottom: 40px;
                 position: absolute;
-                left: 300px;
-                top: 30px;
-                }
+                left: 280px;
+                top: 35px;}
 			
 			a{color: #129494; font-family:"Helvetica"; font-size: 20px;}
 			a:hover{ color: white; font-family:"Helvetica";}
@@ -76,17 +74,16 @@
 			}
 			
             img {
-                border: 0px solid #fff;
+                border: 3px solid #fff;
                 
-                padding-bottom: 40px;
+                padding: 0px;
                 width: 100px;
-                position: relative;
+                position: absolute;
                 left: 170px;
                 top: 20px;
                 }  
             
 		</style>
-        <h1>Rate my Agency</h1>
         <img src="{% static 'images/rmaLogo.jpg' %}"
             alt="RMA logo" />  
 		<title>

@@ -3,7 +3,7 @@
 
 {% block title_block %}
 	{% if cities %}
-		{{ cities.name }}
+		{{ city.name }}
 	{% else %}
 		Unknown City
 	{% endif %}
@@ -11,7 +11,7 @@
 
 {% block body_block %}
 	{% if cities %}
-		<h2>{{ cities.name }}</h2>
+		<h1>{{ cities.name }}</h1>
 		{% if agencies %}
 		<ul>
 			{% for agency in agencies %}

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block body_block %}
-	
+	<h1>Rate my Agency</h1>
 	<div>
 		here is the about page. <br />
 	</div>
