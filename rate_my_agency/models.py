@@ -58,6 +58,8 @@ class Agency(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
     
 # I've written this as being one individual like/dislike rating, left by one person.
 # Hence why it's linked through a foreign key to one agency profile; I thought we could
@@ -71,6 +73,8 @@ class Comment(models.Model):
     commentText = models.CharField(max_length=300)
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
+
+
 
 # Left out toStrings of rating and agency as unsure of syntax.
 # Should they read "USER1 commented on AGENCY1"?

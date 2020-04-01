@@ -13,7 +13,22 @@
 	{% if agency %}
 		<h2>{{ agency.agencyName }}</h2>
 		<p>This agency has an approval rate of {{ approval }}%</p>
+		{% for comment in comments %}
+			<p>{{ comment.tenant }}: {{ comment.commentText }} <br /></p>
+		{% endfor %}
 	{% else %}
 		<strong>Sorry, this is not an agency registered with us</strong>
+	{% endif %}
+	{% if user.is_authenticated %}
+		{% if agency.user == user %}
+         <button class="button" type="submit">Add Picture</button>
+		{% endif %}
+		{% for tenant in tenants %}
+			{% if tenant.user == user %}
+			<button class="button" type="submit">Add a Comment</button>
+			<button class="like" type="submit">Like</button>
+			<button class="dislike" type="submit">Dislike</button>
+			{% endif %}
+		{% endfor %}
 	{% endif %}
 {% endblock %}

@@ -1,11 +1,24 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from rate_my_agency.models import Comment, Agency, Tenant, City
+from rate_my_agency.models import Comment, Agency, Tenant, City, Rating
+
+
+class RatingForm(forms.ModelForm):
+    like = forms.BooleanField()
+
+    class Meta:
+        model = Rating
+        fields = ('like','tenant','agency')
 
 
 class CommentForm(forms.ModelForm):
     commentText = forms.CharField(max_length = 300)
+    
+
+    class Meta:
+        model = Comment
+        fields = ('commentText', 'tenant', 'agency')
 
 
 

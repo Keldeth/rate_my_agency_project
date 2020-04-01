@@ -1,19 +1,18 @@
 {% extends 'rate_my_agency/base.html' %}
-{% load staticfiles %}
+{% load static %}
 
 {% block title_block %}
 	{% if agency %}
-		{{ agency.agency }}
+		{{ agency.agencyName }}
 	{% else %}
 		Unknown Agency
 	{% endif %}
 {% endblock %}
 
-
 {% block body_block %}
 	<h2>Add a Comment</h2>
 	<div>
-		<form id="comment_form" method="post" action="/rate_my_agency/add_comment/">
+		<form id="comment_form" method="post" action="{% url 'rate_my_agency:add_comment' %}">
 			{% csrf_token %}
 			{% for hidden in form.hidden_fields %}
 				{{ hidden }}
@@ -21,7 +20,7 @@
 			{% for field in form.visible_fields %}
 				{{ field.errors }}
 				{{ field.help_text }}
-				{{ field {{
+				{{ field }}
 			{% endfor %}
 			<input class="button" type="submit" name="submit" value="Create Comment" />
 		</form>
