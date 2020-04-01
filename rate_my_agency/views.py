@@ -6,8 +6,11 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect
 from .forms import UserForm, CommentForm, TenantForm, AgencyForm
-from .models import City, Agency, Tenant
+from .models import City, Agency, Tenant, Comment, Rating
 from .filters import AgencyFilter
+
+# Imported for use in the index page
+import operator
 
 from django.views.generic import CreateView # Added Import
 
@@ -22,12 +25,28 @@ def index(request):
     agencies = Agency.objects.all()
     myFilter = AgencyFilter(request.GET, queryset=agencies)
     agencies = myFilter.qs[:10]
+    comments = Comment.objects.all()
     
     context_dict = {}
     context_dict = {'agencies':agencies, 'myFilter':myFilter,
                     'boldmessage':"This is the home page of Rate My Agency."}
     if city_list:
         context_dict['cities'] = city_list
+
+    # Code to find agencies with most comments
+    agency_comments = {}
+    # loops through all comments and adds entries to a dictionary of form key=agency, value=number of comments
+    for comment in comments:
+        if comment.agency in agency_comments:
+            agency_comments[comment.agency] += 1
+        else:
+            agency_comments[comment.agency] = 1
+
+    # orders this list of agencies by their number of comments descendingly, and puts it in a list of tuples
+    orderedAgencies = sorted(agency_comments.items(), key=operator.itemgetter(1), reverse=True)
+    # takes the three top cities from this list
+    busyAgencies = [orderedAgencies[0][0], orderedAgencies[1][0], orderedAgencies[2][0]]
+    context_dict['busyAgencies'] = busyAgencies
     
     return render(request, 'rate_my_agency/index.html', context_dict)
 

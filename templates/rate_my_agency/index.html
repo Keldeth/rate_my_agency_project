@@ -66,9 +66,15 @@
 	
 	<div>
 		<h2>Busiest Agencies</h2>
-		We got negative feedback on "agencies to avoid" on the design spec, so I thought we could replace it with
-			something like this, based on how many comments a page has for example. Can discuss on Thursday.<br>
-			-Paul
+		{% if agencies %}
+			<ul>
+			{% for agency in busyAgencies %}
+				<li><a href="/rate_my_agency/agency/{{ agency.slug }}/">{{ agency.agencyName }}</a></li>
+			{% endfor %}
+			</ul>
+		{% else %}
+			<strong>There are no agencies currently available</strong>
+		{% endif %}
 	</div>
 		
 	<div>
