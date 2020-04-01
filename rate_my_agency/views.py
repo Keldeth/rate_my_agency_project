@@ -70,7 +70,7 @@ def findRating(agency):
         else:
             bad += 1
 
-    if rating:
+    if ratings:
         total = good + bad
         return (good/total)*100
     else:
