@@ -12,6 +12,7 @@
 {% block body_block %}
 	{% if agency %}
 		<h2>{{ agency.agencyName }}</h2>
+		<p>This agency has an approval rate of {{ approval }}%</p>
 	{% else %}
 		<strong>Sorry, this is not an agency registered with us</strong>
 	{% endif %}

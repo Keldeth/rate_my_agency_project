@@ -106,6 +106,7 @@ def show_agency(request, agency_name_slug):
         # get agency with associated slug
         agency = Agency.objects.get(slug=agency_name_slug)
         context_dict['agency'] = agency
+        context_dict['approval'] = findRating(agency)
 
     except Agency.DoesNotExist:
         context_dict['agency'] = None
