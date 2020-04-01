@@ -24,6 +24,7 @@
 	{% else %}
 		Sorry, we do not store information on agencies in this city.
 	{% endif %}
+	</div>
 {% endblock %}
 	
 	
