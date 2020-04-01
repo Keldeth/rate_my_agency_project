@@ -26,12 +26,21 @@ def index(request):
     myFilter = AgencyFilter(request.GET, queryset=agencies)
     agencies = myFilter.qs[:10]
     comments = Comment.objects.all()
+    all_agencies = Agency.objects.all()
     
     context_dict = {}
-    context_dict = {'agencies':agencies, 'myFilter':myFilter,
+    context_dict = {'all_agencies':all_agencies, 'agencies':agencies, 'myFilter':myFilter,
                     'boldmessage':"This is the home page of Rate My Agency."}
     if city_list:
         context_dict['cities'] = city_list
+
+    # Code to find agencies with higest ratings
+    agency_ratings = {}
+    for agency in all_agencies:
+        agency_ratings[agency] = findRating(agency)
+    ordered_ratings = sorted(agency_ratings.items(), key=operator.itemgetter(1), reverse=True)
+    top_agencies = [ordered_ratings[0][0], ordered_ratings[1][0], ordered_ratings[2][0]]
+    context_dict['top_agencies'] = top_agencies
 
     # Code to find agencies with most comments
     agency_comments = {}
@@ -43,12 +52,29 @@ def index(request):
             agency_comments[comment.agency] = 1
 
     # orders this list of agencies by their number of comments descendingly, and puts it in a list of tuples
-    orderedAgencies = sorted(agency_comments.items(), key=operator.itemgetter(1), reverse=True)
+    ordered_agencies = sorted(agency_comments.items(), key=operator.itemgetter(1), reverse=True)
     # takes the three top cities from this list
-    busyAgencies = [orderedAgencies[0][0], orderedAgencies[1][0], orderedAgencies[2][0]]
-    context_dict['busyAgencies'] = busyAgencies
+    busy_agencies = [ordered_agencies[0][0], ordered_agencies[1][0], ordered_agencies[2][0]]
+    context_dict['busy_agencies'] = busy_agencies
     
     return render(request, 'rate_my_agency/index.html', context_dict)
+
+# Helper method to find the overall percentage approval of an agency
+def findRating(agency):
+    good = 0
+    bad = 0
+    ratings = Rating.objects.filter(agency=agency)
+    for rating in ratings:
+        if rating.like == True:
+            good += 1
+        else:
+            bad += 1
+
+    if rating:
+        total = good + bad
+        return (good/total)*100
+    else:
+        return 0
 
 def about(request):
     return render(request, 'rate_my_agency/about.html')
