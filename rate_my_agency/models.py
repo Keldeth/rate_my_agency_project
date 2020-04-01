@@ -60,7 +60,11 @@ class Agency(models.Model):
         return self.user.username
 
 
+class Image(models.Model):
+    image = models.ImageField(upload_to='agency_images', blank=True)
+    agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
     
+
 # I've written this as being one individual like/dislike rating, left by one person.
 # Hence why it's linked through a foreign key to one agency profile; I thought we could
 # average out all the individual ratings on the actual profile page rather than store a % in the DB?

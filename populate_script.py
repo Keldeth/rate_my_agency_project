@@ -5,12 +5,12 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rate_my_agency_project.settings
 
 import django
 django.setup()
-from rate_my_agency.models import City, Tenant, Agency, Rating, Comment
+from rate_my_agency.models import City, Tenant, Agency, Rating, Comment, Image
 from django.contrib.auth.models import User
 
 def populate():
         #Create a superuser out of laziness
-        User.objects.create_superuser(username="admin",email="admin@example.com",password="wad123")
+        #User.objects.create_superuser(username="admin",email="admin@example.com",password="wad123")
         
         #CITIES
         '''######################'''
@@ -24,14 +24,15 @@ def populate():
         #TENANTS
         '''######################'''
         #Create tenant users and add them to the database
-        user1 = User.objects.get_or_create(username='john',email='john@gmail.com',password='11')[0]
-        user2 = User.objects.get_or_create(username='emma',email='emma@gmail.com',password='11')[0]
-        user3 = User.objects.get_or_create(username='jane',email='jane@gmail.com',password='11')[0]
-        user4 = User.objects.get_or_create(username='sam',email='sam@gmail.com',password='11')[0]
+        user1 = User.objects.get_or_create(username='john',email='john@gmail.com')[0]
+        user2 = User.objects.get_or_create(username='emma',email='emma@gmail.com')[0]
+        user3 = User.objects.get_or_create(username='jane',email='jane@gmail.com')[0]
+        user4 = User.objects.get_or_create(username='sam',email='sam@gmail.com')[0]
 	
         tenant_users = [user1, user2, user3, user4]
         tenants = []
-	
+        
+        
         for tenant in tenant_users:
                 tenant.set_password('11')
                 tenant.save()
@@ -73,13 +74,18 @@ def populate():
 					  {'text':'Not helpful.','tenant':tenants[1]},
 					  {'text':'Amazing!','tenant':tenants[2]}]
 		
+        #IMAGES
+        '''######################'''
+        
+        
+        
         #AGENCIES
         '''######################'''	
         #create agency users
-        cairn_user = User.objects.get_or_create(username='cairn',email='cairn@gmail.com',password='11')[0]
-        letsDirect_user = User.objects.get_or_create(username='letsDirect',email='letsdirect@gmail.com',password='11')[0]
-        letsrus_user = User.objects.get_or_create(username='letsrus',email='letsrus@gmail.com',password='11')[0]
-        foleys = User.objects.get_or_create(username='foleys',email='foleys@gmail.com',password='11')[0]
+        cairn_user = User.objects.get_or_create(username='cairn',email='cairn@gmail.com')[0]
+        letsDirect_user = User.objects.get_or_create(username='letsDirect',email='letsdirect@gmail.com')[0]
+        letsrus_user = User.objects.get_or_create(username='letsrus',email='letsrus@gmail.com')[0]
+        foleys = User.objects.get_or_create(username='foleys',email='foleys@gmail.com')[0]
         
 	
         #Create and add the agencies, with different amounts of cities each
@@ -92,6 +98,10 @@ def populate():
                 agency['user'].set_password('11')
                 agency['user'].save()
                 a = add_agency(agency['user'], agency['agencyName'], agency['website'])
+                '''
+                Image.objects.get_or_create(agency = a)[0]
+                print('got here')
+                '''
                 for city in agency['cities']:
                         a.cities.add(city)
                 for rating in agency['ratings']:
