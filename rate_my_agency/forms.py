@@ -9,16 +9,18 @@ class RatingForm(forms.ModelForm):
 
     class Meta:
         model = Rating
-        fields = ('like','tenant','agency')
+        fields = ('like',)
 
 
 class CommentForm(forms.ModelForm):
-    commentText = forms.CharField(max_length = 300)
+    commentText = forms.CharField(max_length = 300,
+                                  label="",
+                                  widget=forms.Textarea)
     
 
     class Meta:
         model = Comment
-        fields = ('commentText', 'tenant', 'agency')
+        fields = ('commentText',)
 
 
 

@@ -32,7 +32,9 @@
 		{% endif %}
 		{% for tenant in tenants %}
 			{% if tenant.user == user %}
-			<button class="button" type="submit">Add a Comment</button>
+			<form action="/rate_my_agency/agency/{{ agency.slug }}/add_comment/">
+				<button class="button" type="submit">Add a Comment</button>
+			</form>
 			<button class="like" type="submit">Like</button>
 			<button class="dislike" type="submit">Dislike</button>
 			{% endif %}

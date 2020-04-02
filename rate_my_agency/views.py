@@ -136,6 +136,8 @@ def show_agency(request, agency_name_slug):
 def add_comment(request ,agency_name_slug):                
     try:
         agency = Agency.objects.get(slug=agency_name_slug)
+        user = request.user
+        tenant = Tenant.objects.get(user=user)
         
     except Agency.DoesNotExist:
         agency = None
@@ -152,7 +154,7 @@ def add_comment(request ,agency_name_slug):
             if agency:
                 comment = form.save(commit=False)
                 comment.agency = agency
-                "comment.tenant = tenant "
+                comment.tenant = tenant 
                 comment.save()
             form.save(commit=True)
             return redirect('/rate_my_agency/')
