@@ -200,6 +200,23 @@ def add_dislike(request, agency_name_slug):
   
     context_dict = {'agency':agency}
     return render(request, 'rate_my_agency/add_dislike.html',context=context_dict)
+
+def delete_rating(request, agency_name_slug):
+    try:
+        agency = Agency.objects.get(slug=agency_name_slug)
+
+    except Agency.DoesNotExist:
+        agency = None
+
+    if agency is None:
+        return redirect('rate_my_agency/')
+    
+    user = request.user
+    tenant= Tenant.objects.get(user=user)
+    Rating.objects.get(tenant=tenant, agency=agency).delete()
+
+    context_dict = {'agency':agency}
+    return render(request, 'rate_my_agency/delete_rating.html',context=context_dict)
     
 def register(request):
     return render(request, 'rate_my_agency/register.html')
@@ -280,34 +297,32 @@ def user_logout(request):
     return redirect(reverse('rate_my_agency:index'))
    
 
-def add_image(request):
+def add_image(request, agency_name_slug):
     added = False
-    
     try:
-        user = request.user
-        agency = Agency.objects.get(user=user)
+        agency = Agency.objects.get(slug=agency_name_slug)
+        
     except Agency.DoesNotExist:
         agency = None
 
     if agency is None:
         return redirect('/rate_my_agency/')
-
+    
     picture_form = PictureForm()
     
     if request.method == 'POST':
-        picture_form = PictureForm(request.POST)
-        
+        picture_form = PictureForm(request.POST, request.FILES)
         if picture_form.is_valid():
-            if agency and ('picture' in request.FILES):
+            if agency and ('image' in request.FILES):
                 picture = picture_form.save(commit=False)
-                picture.image = request.FILES['picture']
+                picture.image = request.FILES['image']
                 picture.agency = agency
                 picture.save()
+
+                added = True
             picture_form.save(commit=True)
-            added = True
-            return redirect('/rate_my_agency/')
         else:
             print(picture_form.errors)
     context_dict = {'picture_form':picture_form, 'agency':agency, 'added':added}
-    return render(request, 'rate_my_agency/add_picture.html', context=context_dict)
+    return render(request, 'rate_my_agency/add_image.html', context=context_dict)
 

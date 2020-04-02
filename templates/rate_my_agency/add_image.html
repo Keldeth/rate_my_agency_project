@@ -12,14 +12,18 @@
 {% block body_block %}
 	{% if agency %}
 		<h2>Add an image to your page below:</h2>
+		{% if added %}
+		<strong>Image added successfully!</strong><br />
+		<p><a href="{% url 'rate_my_agency:show_agency' agency.slug %}">Return to the agency page.</a><br /></p>
 		{% else %}
 		<div>
-			<form id="picture_form" method="post" action="{% url 'rate_my_agency:add_image' %}">
+			<form id="picture_form" method="post"  action="{% url 'rate_my_agency:add_image' agency.slug %}" enctype="multipart/form-data">
 				{% csrf_token %}
 				{{ picture_form.as_p }}
-				<input class="button" type="submit" name="submit" value="Create Comment" />
+				<input class="button" type="submit" name="submit" value="Add Image" />
 			</form>
 		</div>
+		{% endif %}
 	{% else %}
 		<p>Only existing agencies can add an image to their page.<br />
 		<a href="{% url 'rate_my_agency:show_agency' agency.slug %}">Return to the agency page.</a><br /></p>

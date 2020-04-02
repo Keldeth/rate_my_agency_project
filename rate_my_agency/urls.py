@@ -15,6 +15,8 @@ urlpatterns = [
     path('agency/<slug:agency_name_slug>/',
          views.show_agency, name='show_agency'),
     path('agency/<slug:agency_name_slug>/add_comment/', views.add_comment, name='add_comment'),
+    path('agency/<slug:agency_name_slug>/add_image/', views.add_image, name='add_image'),
     path('agency/<slug:agency_name_slug>/like/', views.add_like, name='add_like'),
-    path('agency/<slug:agency_name_slug>/dislike/', views.add_dislike, name='add_dislike')
+    path('agency/<slug:agency_name_slug>/dislike/', views.add_dislike, name='add_dislike'),
+    path('agency/<slug:agency_name_slug>/remove_rating/', views.delete_rating, name='delete_rating')
     ]

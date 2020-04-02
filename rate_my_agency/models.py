@@ -61,7 +61,7 @@ class Agency(models.Model):
 
 
 class Image(models.Model):
-    image = models.ImageField(upload_to='agency_images', blank=True)
+    image = models.ImageField(upload_to='agency_images/', blank=True, null=True)
     agency = models.ForeignKey(Agency, on_delete=models.CASCADE)
     
 

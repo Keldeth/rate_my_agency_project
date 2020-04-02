@@ -24,9 +24,9 @@
        
 		{% if user.is_authenticated %}
 			{% if agency.user == user %}
-				<!--<form action="{% url 'rate_my_agency:add_image' %}">-->
+				<form action="{% url 'rate_my_agency:add_image' agency.slug %}">
 					<button class="button" type="submit">Add Picture</button>
-				<!--</form>-->
+				</form>
 			{% endif %}
 			
 			{% if tenant %}
@@ -38,6 +38,10 @@
 				<div>
 					{% if rating %}
 					<br /><strong> You have already left a rating for this agency.</strong>
+					<form method="post" action="{% url 'rate_my_agency:delete_rating' agency.slug %}">
+						{% csrf_token %}
+						<button class="button" type="submit">Remove Rating</button>
+					</form>
 					{% else %}
 					<form method="post" action="{% url 'rate_my_agency:add_like' agency.slug %}">
 						{% csrf_token %}
