@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect
-from .forms import UserForm, RatingForm, CommentForm, TenantForm, AgencyForm
+from .forms import UserForm, CommentForm, TenantForm, AgencyForm
 from .models import City, Agency, Tenant, Comment, Rating, Image
 from .filters import AgencyFilter
 
@@ -97,22 +97,6 @@ def show_city(request, city_name_slug):
         context_dict['cities'] = None
         context_dict['agencies'] = None
 
-    form = RatingForm()
-
-    if request.method == 'POST':
-        form = RatingForm(request.POST)
-
-        if form.is_valid():
-            if agency:
-                rating = form.save(commit=False)
-                rating.agency = agency
-                rating.tenant = tenant 
-                rating.save()
-            form.save(commit=True)
-            return redirect('/rate_my_agency/')
-        else:
-            print(form.errors)
-    
     return render(request, 'rate_my_agency/city.html', context=context_dict)
 
 def show_agency(request, agency_name_slug):
@@ -121,19 +105,28 @@ def show_agency(request, agency_name_slug):
     try:
         # get agency with associated slug
         agency = Agency.objects.get(slug=agency_name_slug)
+        user = request.user
+        tenant = Tenant.objects.get(user=user)
+
+    except Tenant.DoesNotExist:
+        context_dict['tenant'] = None
+    except TypeError:
+        context_dict['tenant'] = None
+    else:
+        context_dict['tenant'] = tenant
+        context_dict['rating'] = Rating.objects.get(tenant=tenant, agency=agency) 
+    finally:
         context_dict['agency'] = agency
         context_dict['approval'] = findRating(agency)
-        context_dict['tenants'] = Tenant.objects.all()
         context_dict['comments'] = Comment.objects.filter(agency=agency)
-        
         context_dict['images'] = Image.objects.filter(agency=agency)
+        
+    
 
-    except Agency.DoesNotExist:
-        context_dict['agency'] = None
+        return render(request, 'rate_my_agency/agency.html', context=context_dict)
 
-    return render(request, 'rate_my_agency/agency.html', context=context_dict)
-
-def add_comment(request ,agency_name_slug):                
+def add_comment(request ,agency_name_slug):
+    commented = False
     try:
         agency = Agency.objects.get(slug=agency_name_slug)
         user = request.user
@@ -156,14 +149,57 @@ def add_comment(request ,agency_name_slug):
                 comment.agency = agency
                 comment.tenant = tenant 
                 comment.save()
+
+                commented = True
             form.save(commit=True)
-            return redirect('/rate_my_agency/')
+            
         else:
             print(form.errors)
-    context_dict = {'form':form, 'agency':agency}
+    context_dict = {'form':form, 'agency':agency, 'commented':commented }
     return render(request, 'rate_my_agency/add_comment.html', context=context_dict)
 
+def add_like(request, agency_name_slug):
+    
+    try:
+        agency = Agency.objects.get(slug=agency_name_slug)
+        
+    except Agency.DoesNotExist:
+        agency = None
 
+    if agency is None:
+        return redirect('rate_my_agency/')
+
+    user = request.user
+    tenant = Tenant.objects.get(user=user)
+    
+    rating = {'like':True, 'tenant':tenant, 'agency':agency}
+    r = Rating.objects.get_or_create(like = rating['like'], tenant = rating['tenant'], agency = rating['agency'])[0]
+    r.save()
+    
+    context_dict = {'agency':agency}
+    return render(request, 'rate_my_agency/add_like.html',context=context_dict)
+
+def add_dislike(request, agency_name_slug):
+    
+    try:
+        agency = Agency.objects.get(slug=agency_name_slug)
+        
+    except Agency.DoesNotExist:
+        agency = None
+
+    if agency is None:
+        return redirect('rate_my_agency/')
+    
+    user = request.user
+    tenant = Tenant.objects.get(user=user)
+    
+    rating = {'like':False, 'tenant':tenant, 'agency':agency}
+    r = Rating.objects.get_or_create(like = rating['like'], tenant = rating['tenant'], agency = rating['agency'])[0]
+    r.save()
+    
+  
+    context_dict = {'agency':agency}
+    return render(request, 'rate_my_agency/add_dislike.html',context=context_dict)
     
 def register(request):
     return render(request, 'rate_my_agency/register.html')

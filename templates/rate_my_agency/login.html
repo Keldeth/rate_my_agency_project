@@ -10,7 +10,7 @@
 <form id="login_form" method="post" action="{% url 'rate_my_agency:login' %}">
 	{% csrf_token %}
 	Username: <input type="text" name="username" value="" size="50" />
-	<br />
+	<br /><br />
 	Password: <input type="password" name="password" value="" size="50" />
 	<br />
 	<button class="button" type="submit">Submit</button>

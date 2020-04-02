@@ -17,27 +17,40 @@
 			<p>{{ comment.tenant }}: {{ comment.commentText }} <br /></p>
 		{% endfor %}
         
-        
+     
         {% for image in images %}
             <img src="{{ MEDIA_URL }}{{ image.image }}" alt="Flat image"/>
         {% endfor %}
-        
-        
-	{% else %}
-		<strong>Sorry, this is not an agency registered with us</strong>
-	{% endif %}
-	{% if user.is_authenticated %}
-		{% if agency.user == user %}
-         <button class="button" type="submit">Add Picture</button>
-		{% endif %}
-		{% for tenant in tenants %}
-			{% if tenant.user == user %}
-			<form action="/rate_my_agency/agency/{{ agency.slug }}/add_comment/">
-				<button class="button" type="submit">Add a Comment</button>
-			</form>
-			<button class="like" type="submit">Like</button>
-			<button class="dislike" type="submit">Dislike</button>
+       
+		{% if user.is_authenticated %}
+			{% if agency.user == user %}
+			<button class="button" type="submit">Add Picture</button>
 			{% endif %}
-		{% endfor %}
+			
+			{% if tenant %}
+				<form action="{% url 'rate_my_agency:add_comment' agency.slug %}">
+					{% csrf_token %}
+					<button type="submit" class="button" >Add a Comment</button>
+				</form>
+				
+				<div>
+					{% if rating %}
+					<br /><strong> You have already left a rating for this agency.</strong>
+					{% else %}
+					<form method="post" action="{% url 'rate_my_agency:add_like' agency.slug %}">
+						{% csrf_token %}
+						<button class="like" type="submit">Like</button>
+					</form>
+				
+					<form method="post" action="{% url 'rate_my_agency:add_dislike' agency.slug %}">
+						{% csrf_token %}
+						<button class="dislike" type="submit">Dislike</button>
+					</form>
+					{% endif %}
+				</div>	
+			{% endif %}
+		{% endif %}
+	{% else %}
+	<strong>Sorry, this is not an agency registered with us</strong>
 	{% endif %}
 {% endblock %}

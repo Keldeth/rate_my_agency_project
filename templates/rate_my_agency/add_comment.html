@@ -11,12 +11,17 @@
 
 {% block body_block %}
 	<h2>Add a Comment</h2>
+	{% if commented %}
+	<strong>Thanks for your feedback!</strong><br />
+	<p><a href="{% url 'rate_my_agency:show_agency' agency.slug %}">Return to the agency page.</a><br /></p>
+	{% else %}
 	<div>
-		<form id="comment_form" method="post" action="/rate_my_agency/agency/{{ agency.slug }}/add_comment/">
+		<form id="comment_form" method="post" action="{% url 'rate_my_agency:add_comment' agency.slug %}">
 			{% csrf_token %}
 			{{ form.as_p }}
 			<input class="button" type="submit" name="submit" value="Create Comment" />
 		</form>
 	</div>	
+	{% endif %}
 {% endblock %}
 	
