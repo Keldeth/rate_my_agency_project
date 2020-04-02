@@ -1,0 +1,45 @@
+h3{
+    color:white;
+    font-size:30px;
+    width: 410px;
+    font-family:"Helvetica";
+    text-align: center;
+    background-color: black;
+    border-radius: 5px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    position: absolute;
+    left: 700px;
+    top: 100px;
+}
+
+.Slider {
+    display:none;
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
+    border-radius: 5px;
+
+    position: absolute;
+    width:400px;
+    left: 700px;
+    top: 200px;
+}
+.lButton{
+    position: absolute;
+    border-style: solid;
+    width: 25px;
+    left: 670px;
+    top: 250px;
+    background-color: black;
+    color: white;
+}
+.rButton{
+    position: absolute;
+    border-style: solid;
+    width:25px;
+    left: 1115px;
+    top: 250px;
+    background-color: black;
+    color: white;
+}

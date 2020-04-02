@@ -77,7 +77,7 @@ def populate():
 		
         #IMAGES
         '''######################'''
-        cairn_imgs = ['cairn_flat.jpg']
+        cairn_imgs = ['cairn_flat.jpg','cairn_flat2.jpg']
         letsDirect_imgs = ['letsDirect_flat.jpg']
         letsrus_imgs = ['letsrus_flat.jpg']
         foleys_imgs = ['foleys_flat.jpg']
@@ -115,7 +115,7 @@ def populate():
         print("Added 4 agencies")
         print("Added 12 ratings")
         print("Added 12 comments")
-        print("Added 4 images")
+        print("Added 5 images")
 
 
 #ADD TO DATABASE FUNCTIONS	

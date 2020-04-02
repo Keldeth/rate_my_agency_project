@@ -16,11 +16,22 @@
 		{% for comment in comments %}
 			<p>{{ comment.tenant }}: {{ comment.commentText }} <br /></p>
 		{% endfor %}
-        
-     
+            <!-- SLIDER COPY STUFF-->
+           
+           
+        <link rel="stylesheet" href="{% static 'css/slider.css' %}" />
+        <h3>Check out our gallery!</h3>   
+        <div class="display-container">
         {% for image in images %}
-            <img src="{{ MEDIA_URL }}{{ image.image }}" alt="Flat image"/>
+            <img class="Slider" src="{{ MEDIA_URL }}{{ image.image }}" alt="Flat image"/>
         {% endfor %}
+        <button class="lButton" onclick="plusDivs(-1)">&#10094;</button>
+        <button class="rButton" onclick="plusDivs(+1)">&#10095;</button>
+       </div>
+        <script src= "{% static 'js/slider.js' %}"></script>
+        
+        
+       
        
 		{% if user.is_authenticated %}
 			{% if agency.user == user %}

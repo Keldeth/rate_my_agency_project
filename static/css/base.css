@@ -104,12 +104,15 @@ a:active{colour:red; font-family:"Helvetica";}
   color: white;
 }
 
-img {
+
+/* logo image settings*/
+.logo{
     border: 0px solid #fff;
-    
     padding-bottom: 40px;
     width: 100px;
     position: relative;
     left: 170px;
     top: 20px;
-    }  
+    
+}
+
