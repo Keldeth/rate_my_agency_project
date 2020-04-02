@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from rate_my_agency.models import Comment, Agency, Tenant, City, Rating
+from rate_my_agency.models import Comment, Agency, Tenant, City, Rating, Image
 
 
 
@@ -47,9 +47,10 @@ class TenantForm(forms.ModelForm):
         model = Tenant
         fields = ()
         
-
-
-        
+class PictureForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = ('image',)
 
 
 

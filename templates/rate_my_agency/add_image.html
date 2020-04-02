@@ -1,0 +1,27 @@
+{% extends 'rate_my_agency/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	{% if agency %}
+		{{ agency.agencyName }}
+	{% else %}
+		Cannot add an image
+	{% endif %}
+{% endblock %}
+
+{% block body_block %}
+	{% if agency %}
+		<h2>Add an image to your page below:</h2>
+		{% else %}
+		<div>
+			<form id="picture_form" method="post" action="{% url 'rate_my_agency:add_image' %}">
+				{% csrf_token %}
+				{{ picture_form.as_p }}
+				<input class="button" type="submit" name="submit" value="Create Comment" />
+			</form>
+		</div>
+	{% else %}
+		<p>Only existing agencies can add an image to their page.<br />
+		<a href="{% url 'rate_my_agency:show_agency' agency.slug %}">Return to the agency page.</a><br /></p>
+	{% endif %}
+{% endblock %}

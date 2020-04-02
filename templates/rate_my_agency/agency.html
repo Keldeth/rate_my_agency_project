@@ -24,7 +24,9 @@
        
 		{% if user.is_authenticated %}
 			{% if agency.user == user %}
-			<button class="button" type="submit">Add Picture</button>
+				<!--<form action="{% url 'rate_my_agency:add_image' %}">-->
+					<button class="button" type="submit">Add Picture</button>
+				<!--</form>-->
 			{% endif %}
 			
 			{% if tenant %}

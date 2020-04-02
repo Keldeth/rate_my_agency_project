@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect
-from .forms import UserForm, CommentForm, TenantForm, AgencyForm
+from .forms import UserForm, CommentForm, TenantForm, AgencyForm, PictureForm
 from .models import City, Agency, Tenant, Comment, Rating, Image
 from .filters import AgencyFilter
 
@@ -280,5 +280,34 @@ def user_logout(request):
     return redirect(reverse('rate_my_agency:index'))
    
 
+def add_image(request):
+    added = False
+    
+    try:
+        user = request.user
+        agency = Agency.objects.get(user=user)
+    except Agency.DoesNotExist:
+        agency = None
 
+    if agency is None:
+        return redirect('/rate_my_agency/')
+
+    picture_form = PictureForm()
+    
+    if request.method == 'POST':
+        picture_form = PictureForm(request.POST)
+        
+        if picture_form.is_valid():
+            if agency and ('picture' in request.FILES):
+                picture = picture_form.save(commit=False)
+                picture.image = request.FILES['picture']
+                picture.agency = agency
+                picture.save()
+            picture_form.save(commit=True)
+            added = True
+            return redirect('/rate_my_agency/')
+        else:
+            print(picture_form.errors)
+    context_dict = {'picture_form':picture_form, 'agency':agency, 'added':added}
+    return render(request, 'rate_my_agency/add_picture.html', context=context_dict)
 
