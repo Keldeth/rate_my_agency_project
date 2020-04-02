@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect
 from .forms import UserForm, RatingForm, CommentForm, TenantForm, AgencyForm
-from .models import City, Agency, Tenant, Comment, Rating
+from .models import City, Agency, Tenant, Comment, Rating, Image
 from .filters import AgencyFilter
 
 # Imported for use in the index page
@@ -125,6 +125,8 @@ def show_agency(request, agency_name_slug):
         context_dict['approval'] = findRating(agency)
         context_dict['tenants'] = Tenant.objects.all()
         context_dict['comments'] = Comment.objects.filter(agency=agency)
+        
+        context_dict['images'] = Image.objects.filter(agency=agency)
 
     except Agency.DoesNotExist:
         context_dict['agency'] = None

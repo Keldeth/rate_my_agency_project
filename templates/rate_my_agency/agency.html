@@ -16,6 +16,13 @@
 		{% for comment in comments %}
 			<p>{{ comment.tenant }}: {{ comment.commentText }} <br /></p>
 		{% endfor %}
+        
+        
+        {% for image in images %}
+            <img src="{{ MEDIA_URL }}{{ image.image }}" alt="Flat image"/>
+        {% endfor %}
+        
+        
 	{% else %}
 		<strong>Sorry, this is not an agency registered with us</strong>
 	{% endif %}

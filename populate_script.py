@@ -1,6 +1,7 @@
 import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rate_my_agency_project.settings')
 
+from django.core.files.images import ImageFile
 # commenting to test changes
 
 import django
@@ -76,7 +77,10 @@ def populate():
 		
         #IMAGES
         '''######################'''
-        
+        cairn_imgs = ['cairn_flat.jpg']
+        letsDirect_imgs = ['letsDirect_flat.jpg']
+        letsrus_imgs = ['letsrus_flat.jpg']
+        foleys_imgs = ['foleys_flat.jpg']
         
         
         #AGENCIES
@@ -89,29 +93,29 @@ def populate():
         
 	
         #Create and add the agencies, with different amounts of cities each
-        agencies = [{'user':cairn_user, 'agencyName':'Cairn Letting', 'website':'www.cairn.co.uk', 'cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Dundee")],'ratings':cairn_ratings, 'comments': cairn_comms},
-				{'user':letsDirect_user, 'agencyName':'Lets Direct', 'website':'www.letsdirect.co.uk', 'cities':[City.objects.get(name="Edinburgh")],'ratings':letsDirect_ratings, 'comments': letsDirect_comms},
-				{'user':letsrus_user, 'agencyName':'Lets R Us', 'website':'www.letsrus.co.uk','cities':[City.objects.get(name="Aberdeen"),City.objects.get(name="Inverness")],'ratings':letsrus_ratings, 'comments': letsrus_comms},
-				{'user':foleys, 'agencyName':"Foley's", 'website':'www.foleys.co.uk','cities':[City.objects.get(name="Glasgow")],'ratings':foleys_ratings, 'comments': foleys_comms}]
+        agencies = [{'user':cairn_user, 'agencyName':'Cairn Letting', 'website':'www.cairn.co.uk', 'cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Dundee")],'ratings':cairn_ratings, 'comments': cairn_comms, 'images':cairn_imgs},
+				{'user':letsDirect_user, 'agencyName':'Lets Direct', 'website':'www.letsdirect.co.uk', 'cities':[City.objects.get(name="Edinburgh")],'ratings':letsDirect_ratings, 'comments': letsDirect_comms,'images':letsDirect_imgs},
+				{'user':letsrus_user, 'agencyName':'Lets R Us', 'website':'www.letsrus.co.uk','cities':[City.objects.get(name="Aberdeen"),City.objects.get(name="Inverness")],'ratings':letsrus_ratings, 'comments': letsrus_comms,'images':letsrus_imgs},
+				{'user':foleys, 'agencyName':"Foley's", 'website':'www.foleys.co.uk','cities':[City.objects.get(name="Glasgow")],'ratings':foleys_ratings, 'comments': foleys_comms,'images':foleys_imgs}]
 	
         for agency in agencies:
                 agency['user'].set_password('11')
                 agency['user'].save()
                 a = add_agency(agency['user'], agency['agencyName'], agency['website'])
-                '''
-                Image.objects.get_or_create(agency = a)[0]
-                print('got here')
-                '''
+                
                 for city in agency['cities']:
                         a.cities.add(city)
                 for rating in agency['ratings']:
                         add_rating(rating['like'],rating['tenant'],a)
                 for comment in agency['comments']:
                         add_comment(comment['text'],comment['tenant'], a)
-
+                for image in agency['images']:
+                        add_image(image, a)
+                        
         print("Added 4 agencies")
         print("Added 12 ratings")
         print("Added 12 comments")
+        print("Added 4 images")
 
 
 #ADD TO DATABASE FUNCTIONS	
@@ -141,6 +145,13 @@ def add_tenant(user):
 	t = Tenant.objects.get_or_create(user = user)[0]
 	t.save()
 	return t
+
+def add_image(picNAME, agency):
+    i = Image.objects.create(agency = agency)
+    i.image = ImageFile(open(os.path.join('populate_images',picNAME), 'rb'))
+    i.save()
+    return i
+
 
 #Main
 if __name__ == '__main__':
