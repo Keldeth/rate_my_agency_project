@@ -77,7 +77,7 @@ def populate():
 		
         #IMAGES
         '''######################'''
-        cairn_imgs = ['cairn_flat.jpg','cairn_flat2.jpg']
+        cairn_imgs = ['cairn_flat.jpg','cairn_flat2.jpg','cairn_flat3.jpg']
         letsDirect_imgs = ['letsDirect_flat.jpg']
         letsrus_imgs = ['letsrus_flat.jpg']
         foleys_imgs = ['foleys_flat.jpg']

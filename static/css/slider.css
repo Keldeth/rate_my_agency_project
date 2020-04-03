@@ -24,6 +24,8 @@ h3{
     width:400px;
     left: 700px;
     top: 200px;
+    
+    margin-bottom: 100px;
 }
 .lButton{
     position: absolute;

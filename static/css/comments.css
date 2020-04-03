@@ -1,0 +1,29 @@
+
+#container{
+            font-family:"Bahnschrift";
+            font-size:20px;
+            color: #DBD81B;
+
+            
+            background: black;
+            border-width: 2px;
+            border-color: black;
+            border-style: solid;
+            width:400px;
+            margin: 4px 2px;
+            padding:10px;
+            display: inline-block;
+        }
+#scrollbox{
+            font-family:"Arial";
+            font-size:15px;
+            color: black;
+
+            
+            padding-left: 20px;
+            width:380px;
+            height:150px;
+            background: white;
+            overflow:auto; overflow-x:hidden;
+            display: inline-block;
+        }
