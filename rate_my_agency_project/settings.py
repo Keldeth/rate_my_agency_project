@@ -34,7 +34,7 @@ SECRET_KEY = 'u#l0zmy_6v@jf4wp=3%dra9v75=h2vn(la2se6$)#-))f=li8+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mairi.pythonanywhere.com']
 
 
 # Application definition
