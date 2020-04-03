@@ -35,11 +35,11 @@ class UserForm(UserCreationForm):
 class AgencyForm(forms.ModelForm):
     agencyName = forms.CharField(label = "Agency Name")
     cities = forms.ModelMultipleChoiceField(help_text = "(Control + left click to make a selection!)", queryset=City.objects.all())
-    url = forms.URLField(label = "Website",required = False,)
+    website = forms.URLField(label = "Website",required = False,)
     
     class Meta:
         model = Agency
-        fields = ('agencyName', 'cities', 'url',)
+        fields = ('agencyName', 'cities', 'website',)
     
           
 class TenantForm(forms.ModelForm):

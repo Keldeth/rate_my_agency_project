@@ -9,10 +9,10 @@
 	<h2>Sign up to Rate my Agency for free</h2>
 	<h3>Select the type of account you would like to create</h3>
 	
-	<form action="/rate_my_agency/register/tenant/">
+	<form action="{% url 'rate_my_agency:register_tenant' %}">
          <button class="register" type="submit">Tenant</button>
     </form>
-	<form  action="/rate_my_agency/register/agency">
+	<form  action="{% url 'rate_my_agency:register_agency' %}">
          <button class="register" type="submit">Agency</button>
     </form>
 {% endblock %}

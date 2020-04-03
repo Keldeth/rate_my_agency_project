@@ -15,7 +15,7 @@
 		{% if agencies %}
 		<ul>
 			{% for agency in agencies %}
-			<li><a href="/rate_my_agency/agency/{{ agency.slug }}/">{{ agency.agencyName }}</a></li>
+			<li><a href="{% url 'rate_my_agency:show_agency' agency.slug %}">{{ agency.agencyName }}</a></li>
 			{% endfor %}
 		</ul>
 		{% else %}

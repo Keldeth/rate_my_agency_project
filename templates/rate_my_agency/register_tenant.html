@@ -12,7 +12,7 @@
 		<a href="{% url 'rate_my_agency:index' %}">Return to the homepage.</a><br />
 	{% else %}
 		<div>
-			<form id="tenant_form" method="post" action="/rate_my_agency/register/tenant/"
+			<form id="tenant_form" method="post" action="{% url 'rate_my_agency:register_tenant' %}"
 			enctype="multipart/form-data">
 			{% csrf_token %}
 			{{ user_form.as_p }}

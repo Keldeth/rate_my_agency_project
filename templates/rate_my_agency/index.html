@@ -30,7 +30,7 @@
 			<ul>
 			{% for city in cities %}
 				<li>
-					<a href="/rate_my_agency/city/{{ city.slug }}/">{{ city.name }}</a>
+					<a href="{% url 'rate_my_agency:show_city' city.slug %}">{{ city.name }}</a>
 				</li>
 			{% endfor %}
 			</ul>

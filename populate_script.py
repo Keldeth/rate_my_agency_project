@@ -169,14 +169,14 @@ def populate():
         
 	
         #Create and add the agencies, with different amounts of cities each
-        agencies = [{'user':cairn_user, 'agencyName':'Cairn Letting', 'website':'www.cairn.co.uk', 'cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Dundee")],'ratings':cairn_ratings, 'comments': cairn_comms, 'images':cairn_imgs},
-				{'user':letsDirect_user, 'agencyName':'Lets Direct', 'website':'www.letsdirect.co.uk', 'cities':[City.objects.get(name="Edinburgh")],'ratings':letsDirect_ratings, 'comments': letsDirect_comms,'images':letsDirect_imgs},
-				{'user':letsrus_user, 'agencyName':'Lets R Us', 'website':'www.letsrus.co.uk','cities':[City.objects.get(name="Aberdeen"),City.objects.get(name="Inverness")],'ratings':letsrus_ratings, 'comments': letsrus_comms,'images':letsrus_imgs},
-				{'user':foleys_user, 'agencyName':"Foley's", 'website':'www.foleys.co.uk','cities':[City.objects.get(name="Glasgow")],'ratings':foleys_ratings, 'comments': foleys_comms,'images':foleys_imgs},
-                                {'user':cairneys_user, 'agencyName':"Cairney's", 'website':'www.cairneys.co.uk','cities':[City.objects.get(name="Inverness")],'ratings':cairneys_ratings, 'comments': cairneys_comms,'images':cairneys_imgs},
-                                {'user':fontaine_user, 'agencyName':"Fontaine Letting", 'website':'www.fontaineletting.co.uk','cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Edinburgh")],'ratings':fontaine_ratings, 'comments': fontaine_comms,'images':fontaine_imgs},
-                                {'user':johnstone_user, 'agencyName':"Johnstone Lets", 'website':'www.johnstonelets.co.uk','cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Dundee")],'ratings':johnstone_ratings, 'comments': johnstone_comms,'images':johnstone_imgs},
-                                {'user':johnson_user, 'agencyName':"Johnson Letting", 'website':'www.johnsonletting.co.uk','cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Aberdeen"),City.objects.get(name="Inverness")],'ratings':johnson_ratings, 'comments': johnson_comms,'images':johnson_imgs}]
+        agencies = [{'user':cairn_user, 'agencyName':'Cairn Letting', 'website':'http://www.cairn.co.uk', 'cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Dundee")],'ratings':cairn_ratings, 'comments': cairn_comms, 'images':cairn_imgs},
+				{'user':letsDirect_user, 'agencyName':'Lets Direct', 'website':'http://www.letsdirect.co.uk', 'cities':[City.objects.get(name="Edinburgh")],'ratings':letsDirect_ratings, 'comments': letsDirect_comms,'images':letsDirect_imgs},
+				{'user':letsrus_user, 'agencyName':'Lets R Us', 'website':'http://www.letsrus.co.uk','cities':[City.objects.get(name="Aberdeen"),City.objects.get(name="Inverness")],'ratings':letsrus_ratings, 'comments': letsrus_comms,'images':letsrus_imgs},
+				{'user':foleys_user, 'agencyName':"Foley's", 'website':'http://www.foleys.co.uk','cities':[City.objects.get(name="Glasgow")],'ratings':foleys_ratings, 'comments': foleys_comms,'images':foleys_imgs},
+                                {'user':cairneys_user, 'agencyName':"Cairney's", 'website':'http://www.cairneys.co.uk','cities':[City.objects.get(name="Inverness")],'ratings':cairneys_ratings, 'comments': cairneys_comms,'images':cairneys_imgs},
+                                {'user':fontaine_user, 'agencyName':"Fontaine Letting", 'website':'http://www.fontaineletting.co.uk','cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Edinburgh")],'ratings':fontaine_ratings, 'comments': fontaine_comms,'images':fontaine_imgs},
+                                {'user':johnstone_user, 'agencyName':"Johnstone Lets", 'website':'http://www.johnstonelets.co.uk','cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Dundee")],'ratings':johnstone_ratings, 'comments': johnstone_comms,'images':johnstone_imgs},
+                                {'user':johnson_user, 'agencyName':"Johnson Letting", 'website':'http://www.johnsonletting.co.uk','cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Aberdeen"),City.objects.get(name="Inverness")],'ratings':johnson_ratings, 'comments': johnson_comms,'images':johnson_imgs}]
 
         print("Adding 8 agencies, 35 ratings, 46 comments and 32 images (this could take a while)")
         for agency in agencies:

@@ -17,23 +17,7 @@ class City(models.Model):
     def __str__(self):
         return self.name
 
-# commented out this as it's not the way it's done in the book, and our tutor recommended
-# doing it with one-to-one fields directly referencing a user
-'''
-class User(AbstractUser):
-    USER_TYPE_CHOICES = (
-        (1, 'tenant'),
-        (2, 'agency'),
-        (3, 'superuser')
-    )
-    user_type = models.PositiveSmallIntegerField(choices = USER_TYPE_CHOICES)
-    city = models.ForeignKey(City, on_delete=models.CASCADE, null = True)
-    url = models.URLField(null = True)
-    name = models.CharField(max_length = 30, null = True)
-    
-    
-    REQUIRED_FIELDS = ['email', 'user_type']
-'''
+
 
 class Tenant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
