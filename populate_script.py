@@ -45,6 +45,7 @@ def populate():
         tenants = []
 
         print("Adding 8 tenants")
+        # adds all tenants to the database
         for tenant in tenant_users:
                 tenant['user'].set_password('11')
                 tenant['user'].save()
@@ -179,17 +180,23 @@ def populate():
                                 {'user':johnson_user, 'agencyName':"Johnson Letting", 'website':'http://www.johnsonletting.co.uk','cities':[City.objects.get(name="Glasgow"),City.objects.get(name="Aberdeen"),City.objects.get(name="Inverness")],'ratings':johnson_ratings, 'comments': johnson_comms,'images':johnson_imgs}]
 
         print("Adding 8 agencies, 35 ratings, 46 comments and 32 images (this could take a while)")
+        # for each agency:
         for agency in agencies:
+                # adds the agency to the database
                 agency['user'].set_password('11')
                 agency['user'].save()
                 a = add_agency(agency['user'], agency['agencyName'], agency['website'])
-                
+
+                # adds each city it is based in
                 for city in agency['cities']:
                         a.cities.add(city)
+                # adds each of its ratings to the database
                 for rating in agency['ratings']:
                         add_rating(rating['like'],rating['tenant'],a)
+                # adds each of its comments to the database
                 for comment in agency['comments']:
                         add_comment(comment['text'],comment['tenant'], a)
+                # adds each of its images to the database
                 for image in agency['images']:
                         add_image(image, a)
         print("Done")

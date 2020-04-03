@@ -21,7 +21,7 @@
 	</div>
     
 
-    
+    <!-- displays the list of cities, and the two types of lists of popular agencies, in boxes side-by-side -->
     <main id="boxes">
     
 	<div id = "own_div">
@@ -54,7 +54,7 @@
 	</div>
 
 	<div id= "own_div">
-		<h2>Busiest Agencies</h2>
+		<h2>Busiest Agencies:</h2>
 		{% if all_agencies %}
 			<ul>
 			{% for agency in busy_agencies %}
@@ -67,7 +67,7 @@
 	</div>
     </main>
 
-		
+	<!-- displays the search function separately down at the bottom of the page -->
 	<div id = "search">
 		<h2>Search By Agency Name:</h2>
 		<form method="get">

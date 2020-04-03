@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 {% load static %}
 
+<!-- Base template to be used as a base for all other sit pages -->
+
 <html>
 	<head>
         <link rel="stylesheet" href="{% static 'css/base.css' %}" />
         
         <h1>Rate my Agency</h1> 
-        
-        <!--<div style="background-image: url({% static 'images/rmaLogo.jpg' %});">-->
-        <!-- image -->
-        <!--</div>-->
 		
 		<!-- this makes the logo graphic a hyperlink to the homepage from any other page -->
         <a href="{% url 'rate_my_agency:index' %}"> <img class="logo" src="{% static 'images/rmaLogo.jpg' %}" alt="RMA logo"/> </a>

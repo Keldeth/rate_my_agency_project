@@ -3,16 +3,8 @@ from django.urls import reverse, resolve
 from rate_my_agency.models import Agency
 from rate_my_agency.views import index, about, show_city, show_agency, add_comment, add_like, add_dislike, delete_rating, register, register_agency, register_tenant, user_login, user_logout, add_image
 
-# Create your tests here.
+# Unit testing for the rate_my_agency app:
 
-'''
-class AgencyMethodTests(TestCase):
-    def test_slug_line_creation(self):
-        agency = Agency(agencyName='Cairn Letting')
-        agency.save()
-
-        self.assertEqual(agency.slug, 'cairn-letting')
-'''
 class TestViews(TestCase):
     def test_index_view_GET(self):
         client = Client()
@@ -44,21 +36,6 @@ class TestViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'rate_my_agency/register_agency.html')
 
-
-'''
-    def test_show_city_view_GET(self):
-        client = Client()
-        response = self.client.get(reverse('rate_my_agency:show_city'), args=['some-slug'])
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'rate_my_agency/city.html')
-
-    def test_show_agency_view_GET(self):
-        client = Client()
-        response = self.client.get(reverse('rate_my_agency:show_agency'), args=['some-slug'])
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'rate_my_agency/agency.html')
-'''
-    
 
 class TestUrls(SimpleTestCase):
 
@@ -117,9 +94,6 @@ class TestUrls(SimpleTestCase):
     def test_delete_rating_url_is_resolved(self):
         url = reverse('rate_my_agency:delete_rating', args=['some-slug'])
         self.assertEquals(resolve(url).func, delete_rating)
-
-#class TestViews(TestCase):
-
 
 
 
