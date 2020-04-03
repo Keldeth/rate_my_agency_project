@@ -1,0 +1,26 @@
+{% extends 'rate_my_agency/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	{{ user.username }}'s Profile
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+	<h2>View Profile</h2>
+		<p>Username: {{ user.username }}</p>
+		<p>Email: {{ user.email }}</p>
+		{% if tenant %}
+			<p>First name: {{ tenant.first_name }}</p>
+			<p>Surname: {{ tenant.last_name }}</p>
+		{% else %}
+			<p>Agency Name: {{ agency.agencyName }}</p>
+			<p>Cities: 
+			{% for city in agency.cities.all %}
+				{{ city }},
+			{% endfor %}
+			<p>Website: {{ agency.website }}</p>
+		{% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'rate_my_agency/base.html' %}
+{% load static %}
+
+{% block title_block %}
+	{% if agency %}
+		{{ agency.agencyName }}
+	{% else %}
+		Unknown Agency
+	{% endif %}
+{% endblock %}
+
+{% block body_block %}
+	<h2>Remove your images for {{ agency.agencyName }}</h2>
+	<strong>You have removed the images for your agency!</strong><br />
+	<p><a href="{% url 'rate_my_agency:show_agency' agency.slug %}">Return to the agency page.</a><br /></p>	
+{% endblock %}
