@@ -2,35 +2,15 @@
 {% load static %}
 
 
-<!--
-<style>
-	.button {
-	  background-color: white; 
-	  border: 2px solid #4CAF50;
-	  color: black;
-	  padding: 16px 32px;
-	  text-align: center;
-	  text-decoration: none;
-	  display: inline-block;
-	  font-size: 16px;
-	  margin: 4px 2px;
-	  transition-duration: 0.4s;
-	  cursor: pointer;
-	}
-
-	.button:hover {
-	  background-color: #4CAF50;
-	  color: white;
-	}
-</style>
--->
-
 {% block title_block %}
 	Homepage 
 {% endblock %}
 	
 {% block body_block %}
-	<div>
+
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    
+	<div id = "welcome">
 	{% if user.is_authenticated %}
 		Welcome <strong>{{ user.username }}!</strong>
 	{% else %}
@@ -39,8 +19,12 @@
 	<br />
 		<strong>{{ boldmessage }}</strong><br />
 	</div>
-	
-	<div>
+    
+
+    
+    <main id="boxes">
+    
+	<div id = "own_div">
 		<h2>Search for agencies by city:</h2>
 		{% if cities %}
 			<ul>
@@ -54,8 +38,9 @@
 			<strong>There are no cities currently available</strong>
 		{% endif %}
 	</div>
-	
-	<div>
+
+    
+	<div id = "own_div">
 		<h2>Top rated agencies:</h2>
 		{% if all_agencies %}
 			<ul>
@@ -67,8 +52,8 @@
 			<strong>There are no agencies currently available</strong>
 		{% endif %}
 	</div>
-	
-	<div>
+
+	<div id= "own_div">
 		<h2>Busiest Agencies</h2>
 		{% if all_agencies %}
 			<ul>
@@ -80,8 +65,10 @@
 			<strong>There are no agencies currently available</strong>
 		{% endif %}
 	</div>
+    </main>
+
 		
-	<div>
+	<div id = "search">
 		<h2>Search By Agency Name:</h2>
 		<form method="get">
 			{{myFilter.form}}

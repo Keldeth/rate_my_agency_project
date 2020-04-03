@@ -39,7 +39,13 @@ def index(request):
     for agency in all_agencies:
         agency_ratings[agency] = findRating(agency)
     ordered_ratings = sorted(agency_ratings.items(), key=operator.itemgetter(1), reverse=True)
-    top_agencies = [ordered_ratings[0][0], ordered_ratings[1][0], ordered_ratings[2][0]]
+    
+    top_agencies = []
+    if len(ordered_ratings) < 3:
+        for i in range(len(ordered_ratings)):
+            top_agencies.append(ordered_ratings[i][0])
+    else:
+        top_agencies = [ordered_ratings[0][0], ordered_ratings[1][0], ordered_ratings[2][0]]
     context_dict['top_agencies'] = top_agencies
 
     # Code to find agencies with most comments
@@ -54,7 +60,13 @@ def index(request):
     # orders this list of agencies by their number of comments descendingly, and puts it in a list of tuples
     ordered_agencies = sorted(agency_comments.items(), key=operator.itemgetter(1), reverse=True)
     # takes the three top cities from this list
-    busy_agencies = [ordered_agencies[0][0], ordered_agencies[1][0], ordered_agencies[2][0]]
+    busy_agencies = []
+    if len(ordered_ratings) < 3:
+        for i in range(len(ordered_ratings)):
+            busy_agencies.append(ordered_ratings[i][0])
+    else:
+        busy_agencies = [ordered_agencies[0][0], ordered_agencies[1][0], ordered_agencies[2][0]]
+        
     context_dict['busy_agencies'] = busy_agencies
     
     return render(request, 'rate_my_agency/index.html', context_dict)
@@ -72,7 +84,7 @@ def findRating(agency):
 
     if ratings:
         total = good + bad
-        return (good/total)*100
+        return round((good/total)*100)
     else:
         return 0
 
