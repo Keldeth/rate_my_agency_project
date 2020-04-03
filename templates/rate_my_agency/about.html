@@ -7,10 +7,11 @@
 
 {% block body_block %}
 	
-	<h2>
-		Here is the about page. <br />
-	</h2>
 	<div>
-		We are a website where tenants can find and rate letting agencies and letting agencies can upload their profiles and receive ratings. Our aim is to help tenants find which agencies to avoid, and which ones have good ratings, as well as allow agencies to receive feedback about their services.
+		here is the about page. <br />
+	</div>
+	<div>
+		<img src="{% static 'images/apartment.jpg' %}" alt="Picture of apartment" />
+        <img src="{{ MEDIA_URL }}thumbs_up.jpg" alt="Picture of a thumbs up" />
 	</div>
 {% endblock %}
