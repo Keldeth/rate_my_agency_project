@@ -5,3 +5,5 @@ db.sqlite3
 *.key
 thumbs.db
 /media
+rate_my_agency/migrations
+rate_my_agency_project/migrations
