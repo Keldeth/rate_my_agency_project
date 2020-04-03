@@ -2,9 +2,10 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import redirect
+from django.db import IntegrityError
 from .forms import UserForm, CommentForm, TenantForm, AgencyForm, PictureForm
 from .models import City, Agency, Tenant, Comment, Rating, Image
 from .filters import AgencyFilter
@@ -170,58 +171,33 @@ def add_comment(request ,agency_name_slug):
     context_dict = {'form':form, 'agency':agency, 'commented':commented }
     return render(request, 'rate_my_agency/add_comment.html', context=context_dict)
 
-def add_like(request, agency_name_slug):
+def add_rating(request, agency_name_slug, like):
     
-    try:
-        agency = Agency.objects.get(slug=agency_name_slug)
-        
-    except Agency.DoesNotExist:
-        agency = None
-
-    if agency is None:
-        return redirect('rate_my_agency/')
+    agency = get_agency(agency_name_slug)
 
     user = request.user
     tenant = Tenant.objects.get(user=user)
     
-    rating = {'like':True, 'tenant':tenant, 'agency':agency}
+    rating = {'like':like, 'tenant':tenant, 'agency':agency}
     r = Rating.objects.get_or_create(like = rating['like'], tenant = rating['tenant'], agency = rating['agency'])[0]
     r.save()
-    
     context_dict = {'agency':agency}
+    return context_dict
+
+def add_like(request, agency_name_slug):
+    
+    context_dict = add_rating(request, agency_name_slug, True)
+    
     return render(request, 'rate_my_agency/add_like.html',context=context_dict)
 
 def add_dislike(request, agency_name_slug):
     
-    try:
-        agency = Agency.objects.get(slug=agency_name_slug)
-        
-    except Agency.DoesNotExist:
-        agency = None
-
-    if agency is None:
-        return redirect('rate_my_agency/')
+    context_dict = add_rating(request, agency_name_slug, False)
     
-    user = request.user
-    tenant = Tenant.objects.get(user=user)
-    
-    rating = {'like':False, 'tenant':tenant, 'agency':agency}
-    r = Rating.objects.get_or_create(like = rating['like'], tenant = rating['tenant'], agency = rating['agency'])[0]
-    r.save()
-    
-  
-    context_dict = {'agency':agency}
     return render(request, 'rate_my_agency/add_dislike.html',context=context_dict)
 
 def delete_rating(request, agency_name_slug):
-    try:
-        agency = Agency.objects.get(slug=agency_name_slug)
-
-    except Agency.DoesNotExist:
-        agency = None
-
-    if agency is None:
-        return redirect('rate_my_agency/')
+    agency = get_agency(agency_name_slug)
     
     user = request.user
     tenant= Tenant.objects.get(user=user)
@@ -307,10 +283,56 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect(reverse('rate_my_agency:index'))
-   
+
+
+def view_profile(request):
+    context_dict = {}
+    try:
+        tenant = Tenant.objects.get(user=request.user)
+    except Tenant.DoesNotExist:
+        context_dict['agency'] = Agency.objects.get(user=request.user)
+        context_dict['tenant'] = None
+    else:
+        context_dict['tenant'] = tenant
+    finally:
+        context_dict['user'] = request.user
+        return render(request, 'rate_my_agency/view_profile.html', context=context_dict)  
+
 
 def add_image(request, agency_name_slug):
     added = False
+    agency = get_agency(agency_name_slug)
+    picture_form = PictureForm()
+
+    try:
+        if request.method == 'POST':
+            picture_form = PictureForm(request.POST, request.FILES)
+            if picture_form.is_valid():
+                if agency and ('image' in request.FILES):
+                    picture = picture_form.save(commit=False)
+                    picture.image = request.FILES['image']
+                    picture.agency = agency
+                    picture.save()
+
+                    added = True
+                picture_form.save(commit=True)
+            else:
+                print(picture_form.errors)
+    except (IntegrityError):
+        return HttpResponseRedirect(reverse('rate_my_agency:add_image', args=(agency_name_slug,)))
+    
+    context_dict = {'picture_form':picture_form, 'agency':agency, 'added':added}
+    return render(request, 'rate_my_agency/add_image.html', context=context_dict)
+
+
+def remove_images(request, agency_name_slug):
+    agency = get_agency(agency_name_slug)
+    Image.objects.filter(agency=agency).delete()
+    context_dict = {'agency':agency}
+    return render(request, 'rate_my_agency/remove_images.html',context=context_dict)
+
+
+def get_agency(agency_name_slug):
     try:
         agency = Agency.objects.get(slug=agency_name_slug)
         
@@ -319,22 +341,5 @@ def add_image(request, agency_name_slug):
 
     if agency is None:
         return redirect('/rate_my_agency/')
-    
-    picture_form = PictureForm()
-    
-    if request.method == 'POST':
-        picture_form = PictureForm(request.POST, request.FILES)
-        if picture_form.is_valid():
-            if agency and ('image' in request.FILES):
-                picture = picture_form.save(commit=False)
-                picture.image = request.FILES['image']
-                picture.agency = agency
-                picture.save()
-
-                added = True
-            picture_form.save(commit=True)
-        else:
-            print(picture_form.errors)
-    context_dict = {'picture_form':picture_form, 'agency':agency, 'added':added}
-    return render(request, 'rate_my_agency/add_image.html', context=context_dict)
+    return agency
 

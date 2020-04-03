@@ -43,9 +43,11 @@ class AgencyForm(forms.ModelForm):
     
           
 class TenantForm(forms.ModelForm):
+    first_name = forms.CharField(max_length = 30, label="First name")
+    last_name = forms.CharField(max_length = 30, label="Surname")
     class Meta:
         model = Tenant
-        fields = ()
+        fields = ('first_name','last_name')
         
 class PictureForm(forms.ModelForm):
     class Meta:

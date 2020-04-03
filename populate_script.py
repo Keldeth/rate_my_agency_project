@@ -33,14 +33,23 @@ def populate():
         user6 = User.objects.get_or_create(username='scott',email='scottie@gmail.com')[0]
         user7 = User.objects.get_or_create(username='sarah',email='sarahhh@gmail.com')[0]
 	
-        tenant_users = [user0, user1, user2, user3, user4, user5, user6, user7]
+        tenant_users = tenant_users = [{'user':user0,'first_name':'Jordyn','last_name':'Wilson'},
+                        {'user':user1,'first_name':'John','last_name':'Miller'},
+                        {'user':user2,'first_name':'Emma','last_name':'Williams'},
+                        {'user':user3,'first_name':'Jane','last_name':'Jones'},
+                        {'user':user4,'first_name':'Sam','last_name':'Rodriguez'},
+                        {'user':user5,'first_name':'Tim','last_name':'Brown'},
+                        {'user':user6,'first_name':'Scott','last_name':'Garcia'},
+                        {'user':user7,'first_name':'Sarah','last_name':'Davis'}
+                        ]
         tenants = []
 
         print("Adding 8 tenants")
         for tenant in tenant_users:
-                tenant.set_password('11')
-                tenant.save()
-                tenants.append(add_tenant(tenant))
+                tenant['user'].set_password('11')
+                tenant['user'].save()
+                t = add_tenant(tenant['user'],tenant['first_name'],tenant['last_name'])
+                tenants.append(t)
 	
         #RATINGS
         '''######################'''
@@ -208,8 +217,8 @@ def add_agency(user, agencyName, website):
 	a.save()
 	return a
 	
-def add_tenant(user):
-	t = Tenant.objects.get_or_create(user = user)[0]
+def add_tenant(user, first_name, last_name):
+	t = Tenant.objects.get_or_create(user = user, first_name=first_name, last_name=last_name)[0]
 	t.save()
 	return t
 

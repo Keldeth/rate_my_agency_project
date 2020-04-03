@@ -58,7 +58,11 @@
 		{% if user.is_authenticated %}
 			{% if agency.user == user %}
 				<form action="{% url 'rate_my_agency:add_image' agency.slug %}">
-					<button class="button" type="submit">Add Picture</button>
+					<button class="button" type="submit">Add Image</button>
+				</form>
+				
+				<form action="{% url 'rate_my_agency:remove_images' agency.slug %}">
+					<button class="button" type="submit">Remove Images</button>
 				</form>
 			{% endif %}
 			
